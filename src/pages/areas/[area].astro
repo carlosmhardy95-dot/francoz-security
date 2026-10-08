@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import NoteCard from '../../components/NoteCard.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import LabLog from '../../components/LabLog.astro';
+import { AREAS, type Area } from '../../data/areas';
+import { todoElLab, todasLasNotas, todosLosProyectos, resumenLab } from '../../data/contenido';
+
+export function getStaticPaths() {
+  return AREAS.map((a) => ({ params: { area: a.slug }, props: { area: a } }));
+}
+const { area } = Astro.props as { area: Area };
+const notas = (await todasLasNotas()).filter((n) => n.data.area === area.slug);
+const lab = (await todoElLab()).filter((e) => e.data.area === area.slug);
+const proyectos = (await todosLosProyectos()).filter((p) => p.data.area === area.slug);
+const { siguiente } = await resumenLab();
+---
+<Base title={`Área ${area.nombre}`} description={`${area.nombre} (${area.sub.toLowerCase()}): ${area.enfoque} ${area.descripcion}`.slice(0, 165)}>
+  <main id="contenido">
+    <PageHead
+      kicker={`Área ${area.numero} · ${area.tipo}`}
+      titulo={area.nombre}
+      lead={`${area.enfoque} ${area.descripcion}`}
+      migas={[{ label: 'Inicio', href: '/' }, { label: 'Áreas', href: '/areas/' }, { label: area.nombre }]}
+    >
+      <div class="meta-row">{area.temas.map((t) => <span class="chip">{t}</span>)}</div>
+    </PageHead>
+
+    <section class="sec">
+      <div class="wrap">
+        <div class="colhead"><h2 style="font-size:22px;font-weight:470;margin:0">Proyectos</h2></div>
+        {proyectos.length ? <div class="listgrid">{proyectos.map((p) => <ProjectCard p={p} />)}</div>
+          : <p class="empty">Todavía no hay proyectos en esta área.</p>}
+
+        <div class="block">
+          <div class="colhead"><h2 style="font-size:22px;font-weight:470;margin:0">FRANCOZ LAB</h2></div>
+          {lab.length ? <LabLog entradas={lab} siguiente={siguiente} formato={false} />
+            : <p class="empty">Todavía no hay entradas del LAB en esta área.</p>}
+        </div>
+
+        <div class="block">
+          <div class="colhead"><h2 style="font-size:22px;font-weight:470;margin:0">Notas</h2></div>
+          {notas.length ? <div class="notes" style="margin-top:8px">{notas.map((n) => <NoteCard n={n} />)}</div>
+            : <p class="empty">Todavía no hay notas en esta área.</p>}
+        </div>
+
+        {area.servicioFuturo && (
+          <div class="block contact glass">
+            <p class="kicker">Servicio relacionado</p>
+            <h2 class="title" style="font-size:clamp(30px,3.6vw,44px)">{area.servicioFuturo.nombre}</h2>
+            <p class="lead" style="margin-top:18px">{area.servicioFuturo.descripcion}</p>
+          </div>
+        )}
+      </div>
+    </section>
+  </main>
+</Base>

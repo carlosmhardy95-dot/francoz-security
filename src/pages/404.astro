@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+---
+<Base title="Página no encontrada">
+  <main id="contenido">
+    <PageHead
+      kicker="Error 404"
+      titulo="Esta página no existe."
+      lead="Puede que la dirección esté mal escrita o que el contenido todavía esté en preparación."
+    >
+      <a class="textlink" href="/">Volver al inicio</a>
+    </PageHead>
+  </main>
+</Base>

@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Roadmap from '../components/Roadmap.astro';
+import { SITE } from '../data/site';
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.nombre,
+  description: SITE.descripcion,
+  url: Astro.site?.toString(),
+  slogan: SITE.lema,
+};
+---
+<Base title="Sobre FRANCOZ" description="Qué es FRANCOZ SECURITY, cómo trabaja y hacia dónde va: un proyecto de ciberseguridad, riesgo e inteligencia construido a la vista." jsonld={jsonld}>
+  <main id="contenido">
+    <PageHead
+      kicker="Sobre FRANCOZ"
+      titulo="Que la seguridad deje de llegar tarde."
+      lead="FRANCOZ SECURITY es un proyecto profesional que estudia la seguridad desde su lado menos visible: el análisis previo. No nace como empresa; nace como un método de trabajo que, con tiempo y evidencia, quiere convertirse en una."
+      migas={[{ label: 'Inicio', href: '/' }, { label: 'Sobre' }]}
+    />
+
+    <section class="sec">
+      <div class="wrap">
+        <div class="about" style="margin-top:0">
+          <div>
+            <h2>Enfoque</h2>
+            <p>Primero entender el sistema; después, medir el riesgo; recién entonces, elegir controles. Sin herramientas mágicas ni recetas universales.</p>
+          </div>
+          <div>
+            <h2>Formación <span class="chip live">En curso</span></h2>
+            <p>Actualmente cursando la Licenciatura en Ciberdefensa en la Universidad de la Defensa Nacional (UNDEF · Facultad de la Defensa Nacional), modalidad a distancia.</p>
+          </div>
+          <div>
+            <h2>Filosofía de aprendizaje</h2>
+            <p>Aprender haciendo, documentar lo que se hace y publicar también lo que salió mal. Un error bien explicado enseña más que un éxito sin contexto.</p>
+          </div>
+          <div>
+            <h2>Práctica</h2>
+            <p>La teoría se prueba en laboratorio. Cada concepto estudiado busca su entorno propio, aislado y documentado, antes de darse por aprendido.</p>
+          </div>
+          <div>
+            <h2>Visión</h2>
+            <p>Llegar a ser una práctica de ciberseguridad, riesgo e inteligencia reconocida por su rigor y su claridad, especialmente para organizaciones que hoy no tienen a quién preguntarle.</p>
+          </div>
+          <div>
+            <h2>Evolución</h2>
+            <p>FRANCOZ va a ofrecer servicios cuando la formación, la práctica y la evidencia publicada lo justifiquen. La hoja de ruta está a la vista para que cualquiera pueda seguirla.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="hoja-de-ruta" aria-labelledby="ruta-t">
+      <div class="wrap">
+        <div class="split" style="align-items:start">
+          <div>
+            <p class="kicker">Hoja de ruta</p>
+            <h2 class="title" id="ruta-t">Cuatro etapas, sin fechas.</h2>
+            <p class="lead" style="margin-top:24px">Cada etapa se abre cuando se cumplen sus condiciones, no cuando llega una fecha. Los servicios aparecen recién en la Etapa 03, con formación, práctica y un marco legal que los respalden.</p>
+          </div>
+          <Roadmap />
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<style>
+  .about h2{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0 0 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+</style>

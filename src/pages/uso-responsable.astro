@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+---
+<Base title="Uso responsable" description="Las reglas con las que FRANCOZ SECURITY practica y publica: entornos propios, casos ficticios y ningún dato de terceros.">
+  <main id="contenido">
+    <PageHead
+      kicker="Uso responsable"
+      titulo="Práctica con reglas claras."
+      lead="Todo lo que se publica en este sitio tiene fines educativos y sigue estas reglas. Aplican a cada laboratorio, proyecto y nota."
+      migas={[{ label: 'Inicio', href: '/' }, { label: 'Uso responsable' }]}
+    />
+    <div class="wrap">
+      <div class="entry-grid">
+        <article class="prose">
+          <h2>1. Solo entornos propios o con autorización escrita</h2>
+          <p>Las prácticas técnicas se hacen en máquinas virtuales propias, redes aisladas o plataformas creadas para practicar. Nunca sobre sistemas de terceros sin una autorización escrita y un alcance definido.</p>
+          <p>En Argentina, acceder sin autorización a un sistema o dato informático de acceso restringido es un delito según la <a href="https://www.argentina.gob.ar/justicia/derechofacil/leysimple/delitos-informaticos">Ley 26.388</a>.</p>
+
+          <h2>2. Casos ficticios para OSINT y análisis de riesgo</h2>
+          <p>Las investigaciones de fuentes abiertas y los análisis de riesgo usan personas y organizaciones inventadas. Si un ejemplo se parece a un caso real, es coincidencia.</p>
+
+          <h2>3. Ningún dato de terceros se publica</h2>
+          <p>Las capturas, registros y archivos que se publican no contienen datos personales, credenciales ni información de terceros. Lo que haga falta mostrar se anonimiza.</p>
+
+          <h2>4. Write-ups solo de retos retirados o de publicación permitida</h2>
+          <p>Las soluciones de plataformas de práctica (CTF y similares) se publican solo cuando sus reglas lo permiten; por ejemplo, Hack The Box permite publicar solo contenido retirado.</p>
+
+          <h2>5. Errores y correcciones</h2>
+          <p>Si encontrás un error técnico en algún contenido, escribí desde la página de contacto. La corrección se publica y se actualiza la fecha de revisión.</p>
+        </article>
+        <aside class="side">
+          <div class="side-box glass">
+            <h2>En resumen</h2>
+            <ul style="gap:8px">
+              <li>Entornos propios</li><li>Casos ficticios</li><li>Sin datos de terceros</li><li>Solo retos retirados</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+</Base>

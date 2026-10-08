@@ -1,0 +1,19 @@
+---
+interface Props { enlace?: boolean }
+const { enlace = true } = Astro.props;
+const reglas = [
+  'Solo entornos propios o con autorización escrita.',
+  'Casos ficticios para OSINT y análisis de riesgo.',
+  'Ningún dato de terceros se publica.',
+  'Write-ups solo de retos retirados o de publicación permitida.',
+];
+---
+<div class="rules">
+  <h4>Uso responsable</h4>
+  <ul>
+    {reglas.map((r) => (
+      <li><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="m2 7.4 3 3L12 3.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>{r}</li>
+    ))}
+  </ul>
+  {enlace && <a class="textlink" href="/uso-responsable/" style="margin-top:16px;font-size:14.5px">Leer la política completa</a>}
+</div>

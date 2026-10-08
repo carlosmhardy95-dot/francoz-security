@@ -1,0 +1,129 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Roadmap from '../components/Roadmap.astro';
+import AreaCards from '../components/AreaCards.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import LabLog from '../components/LabLog.astro';
+import Rules from '../components/Rules.astro';
+import NoteCard from '../components/NoteCard.astro';
+import Contact from '../components/Contact.astro';
+import { SITE } from '../data/site';
+import { todoElLab, todasLasNotas, todosLosProyectos, resumenLab } from '../data/contenido';
+
+const lab = await todoElLab();
+const resumen = await resumenLab();
+const proyectos = (await todosLosProyectos()).slice(0, 2);
+const notas = (await todasLasNotas()).slice(0, 3);
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.nombre,
+  description: SITE.descripcion,
+  url: Astro.site?.toString(),
+  inLanguage: 'es-AR',
+};
+---
+<Base home jsonld={jsonld}>
+  <Hero labNumero={resumen.numero} labEtiqueta={resumen.etiqueta} />
+
+  <main class="site" id="contenido">
+    <section class="sec" id="idea" aria-labelledby="idea-t">
+      <div class="wrap">
+        <div class="split">
+          <div>
+            <p class="kicker">La idea</p>
+            <h2 class="title" id="idea-t">Todo incidente tiene un antes.</h2>
+          </div>
+          <p class="lead">Un incidente rara vez empieza el día en que se nota. Empieza en un activo que nadie inventarió, una contraseña que nadie cambió, un backup que nadie probó. FRANCOZ SECURITY trabaja en ese tramo: el tiempo en el que todavía se puede entender, medir y preparar.</p>
+        </div>
+        <div class="tl" role="list" aria-label="Antes, durante y después de un incidente">
+          <div class="tl-row">
+            <div class="seg now" role="listitem">
+              <div class="seg-name">Antes</div>
+              <div class="seg-verbs"><span>Entender.</span><span>Medir.</span><span>Preparar.</span></div>
+              <span class="chip live">Acá trabaja FRANCOZ</span>
+            </div>
+            <div class="seg" role="listitem">
+              <div class="seg-name">Durante</div>
+              <div class="seg-verbs"><span>Detectar.</span><span>Contener.</span></div>
+            </div>
+            <div class="seg" role="listitem">
+              <div class="seg-name">Después</div>
+              <div class="seg-verbs"><span>Recuperar.</span><span>Aprender.</span></div>
+              <p class="tl-back">↺ Lo aprendido vuelve al antes.</p>
+            </div>
+          </div>
+          <div class="loop" aria-hidden="true"><span>Lo aprendido vuelve al antes</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="etapa" aria-labelledby="etapa-t">
+      <div class="wrap">
+        <div class="split" style="align-items:start">
+          <div>
+            <p class="kicker">Etapa actual</p>
+            <h2 class="title" id="etapa-t">Una marca que se construye a la vista.</h2>
+            <p class="lead" style="margin-top:28px">FRANCOZ SECURITY nace con un objetivo de largo plazo: convertirse en una práctica especializada en ciberseguridad, gestión de riesgos e inteligencia. Hoy transita su primera etapa: formar criterio, montar laboratorios y documentar cada paso en público.</p>
+            <p class="lead">Todavía no hay servicios a la venta. Hay método, práctica y un registro abierto de todo lo que se aprende.</p>
+            <a class="textlink" href="/sobre/">Leer el manifiesto <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+          </div>
+          <Roadmap />
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="areas" aria-labelledby="areas-t">
+      <div class="wrap">
+        <p class="kicker">Áreas de conocimiento</p>
+        <h2 class="title" id="areas-t">Cuatro áreas, un mismo método.</h2>
+        <p class="note">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2" /><path d="M8 7v4.5M8 4.6v.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg>
+          Áreas de estudio y práctica. No son servicios disponibles: son el mapa de lo que FRANCOZ investiga y documenta.
+        </p>
+        <AreaCards />
+      </div>
+    </section>
+
+    <section class="sec" id="evidencia" aria-labelledby="ev-t">
+      <div class="wrap">
+        <p class="kicker">Evidencia</p>
+        <h2 class="title" id="ev-t">El método, aplicado de punta a punta.</h2>
+        <p class="lead" style="margin-top:24px">Proyectos que integran varias prácticas y terminan en un entregable revisable, y una bitácora técnica donde cada práctica queda numerada.</p>
+        <div class="ev">
+          <div>
+            <div class="colhead"><h3>Proyectos</h3><a class="textlink" href="/proyectos/" style="margin:0;font-size:14.5px">Ver todos</a></div>
+            <div class="projs">{proyectos.map((p) => <ProjectCard p={p} />)}</div>
+          </div>
+          <div id="lab">
+            <div class="colhead"><h3>FRANCOZ LAB</h3><a class="textlink" href="/lab/" style="margin:0;font-size:14.5px">Entrar al Lab</a></div>
+            <LabLog entradas={lab.slice(0, 3)} siguiente={resumen.siguiente} />
+            <Rules />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="notas" aria-labelledby="notas-t">
+      <div class="wrap">
+        <div class="head-row">
+          <div>
+            <p class="kicker">Notas</p>
+            <h2 class="title" id="notas-t">Seguridad explicada, sin humo.</h2>
+          </div>
+          <div>
+            <p class="lead" style="max-width:40ch">Conceptos, guías y comparaciones escritas para entender, no para asustar.</p>
+            <a class="textlink" href="/notas/">Leer las notas <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+          </div>
+        </div>
+        <div class="notes">{notas.map((n) => <NoteCard n={n} />)}</div>
+      </div>
+    </section>
+
+    <section class="sec" id="contacto" aria-labelledby="contacto-t">
+      <div class="wrap"><Contact /></div>
+    </section>
+  </main>
+</Base>

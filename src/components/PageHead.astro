@@ -1,0 +1,25 @@
+---
+interface Props {
+  kicker: string;
+  titulo: string;
+  lead?: string;
+  migas?: { label: string; href?: string }[];
+}
+const { kicker, titulo, lead, migas } = Astro.props;
+---
+<section class="pagehead">
+  <div class="orb" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="ph-body">
+      {migas && (
+        <ol class="crumbs" aria-label="Ubicación">
+          {migas.map((m) => <li>{m.href ? <a href={m.href}>{m.label}</a> : <span aria-current="page">{m.label}</span>}</li>)}
+        </ol>
+      )}
+      <p class="kicker">{kicker}</p>
+      <h1 class="title">{titulo}</h1>
+      {lead && <p class="lead">{lead}</p>}
+      <slot />
+    </div>
+  </div>
+</section>

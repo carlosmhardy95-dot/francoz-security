@@ -1,0 +1,27 @@
+---
+import { AREAS } from '../data/areas';
+interface Props { enlazar?: boolean }
+const { enlazar = true } = Astro.props;
+const dominios = AREAS.filter((a) => a.tipo === 'Dominio');
+const transversal = AREAS.find((a) => a.tipo === 'Transversal')!;
+const Tag = enlazar ? 'a' : 'article';
+---
+<div class="areas">
+  {dominios.map((a) => (
+    <Tag class="area glass" href={enlazar ? `/areas/${a.slug}/` : undefined}>
+      <div class="area-head"><span class="area-num">{a.numero}</span><span class="chip">{a.tipo}</span></div>
+      <h3>{a.nombre}</h3>
+      <p class="sub">{a.sub}</p>
+      <p class="focus">{a.enfoque}</p>
+      <div class="topics">{a.temas.map((t) => <span class="chip">{t}</span>)}</div>
+    </Tag>
+  ))}
+  <Tag class="area glass wide" href={enlazar ? `/areas/${transversal.slug}/` : undefined}>
+    <div class="left">
+      <div class="area-head" style="justify-content:flex-start"><span class="area-num">{transversal.numero}</span><span class="chip">{transversal.tipo}</span></div>
+      <h3>{transversal.nombre}</h3>
+      <p class="focus" style="margin-top:6px">{transversal.enfoque}</p>
+    </div>
+    <div class="topics">{transversal.temas.map((t) => <span class="chip">{t}</span>)}</div>
+  </Tag>
+</div>

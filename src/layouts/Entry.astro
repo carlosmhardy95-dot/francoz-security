@@ -1,0 +1,66 @@
+---
+// Diseño compartido para una nota, una entrada del LAB o un proyecto.
+import Base from './Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { SITE } from '../data/site';
+
+interface Enlace { href: string; titulo: string }
+interface Props {
+  titulo: string;
+  descripcion: string;
+  kicker: string;
+  migas: { label: string; href?: string }[];
+  chips?: { texto: string; vivo?: boolean }[];
+  anterior?: Enlace | null;
+  siguiente?: Enlace | null;
+  fecha?: Date;
+  revision?: Date;
+}
+const { titulo, descripcion, kicker, migas, chips = [], anterior, siguiente, fecha, revision } = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: titulo,
+    description: descripcion,
+    inLanguage: 'es-AR',
+    mainEntityOfPage: url,
+    ...(fecha && { datePublished: fecha.toISOString() }),
+    ...((revision ?? fecha) && { dateModified: (revision ?? fecha)!.toISOString() }),
+    author: { '@type': 'Organization', name: SITE.nombre },
+    publisher: { '@type': 'Organization', name: SITE.nombre },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: migas.map((m, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: m.label,
+      ...(m.href ? { item: new URL(m.href, Astro.site).toString() } : { item: url }),
+    })),
+  },
+];
+---
+<Base title={titulo} description={descripcion} jsonld={jsonld} type="article">
+  <main id="contenido">
+    <PageHead kicker={kicker} titulo={titulo} lead={descripcion} migas={migas}>
+      {chips.length > 0 && (
+        <div class="meta-row">{chips.map((c) => <span class:list={['chip', { live: c.vivo }]}>{c.texto}</span>)}</div>
+      )}
+    </PageHead>
+    <div class="wrap">
+      <div class="entry-grid">
+        <article class="prose"><slot /></article>
+        <aside class="side"><slot name="side" /></aside>
+      </div>
+      {(anterior || siguiente) && (
+        <nav class="pager" aria-label="Más entradas">
+          {anterior && <a href={anterior.href}><span>Anterior</span><b>{anterior.titulo}</b></a>}
+          {siguiente && <a class="nx" href={siguiente.href}><span>Siguiente</span><b>{siguiente.titulo}</b></a>}
+        </nav>
+      )}
+    </div>
+  </main>
+</Base>

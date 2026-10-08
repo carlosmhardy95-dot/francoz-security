@@ -1,0 +1,65 @@
+---
+import { getCollection, render } from 'astro:content';
+import Entry from '../../layouts/Entry.astro';
+import { numeroLab, fechaLarga } from '../../data/site';
+import { areaPorSlug } from '../../data/areas';
+
+export async function getStaticPaths() {
+  // Solo las entradas publicadas tienen página
+  const lab = (await getCollection('lab', (e) => e.data.estado === 'publicada')).sort(
+    (a, b) => a.data.numero - b.data.numero
+  );
+  const notas = await getCollection('notas', (n) => n.data.estado === 'publicada');
+  return lab.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      anterior: lab[i - 1] ?? null,
+      siguiente: lab[i + 1] ?? null,
+      notasRelacionadas: notas.filter((n) => n.data.lab.includes(entry.id)),
+    },
+  }));
+}
+
+const { entry, anterior, siguiente, notasRelacionadas } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const area = areaPorSlug(d.area);
+const enlace = (e: typeof entry | null) =>
+  e ? { href: `/lab/${e.id}/`, titulo: `${numeroLab(e.data.numero)} · ${e.data.titulo}` } : null;
+---
+<Entry
+  titulo={`FRANCOZ LAB ${numeroLab(d.numero)} — ${d.titulo}`}
+  descripcion={d.descripcion}
+  kicker={`${area.nombre} · ${d.tipo}`}
+  migas={[{ label: 'Inicio', href: '/' }, { label: 'Lab', href: '/lab/' }, { label: numeroLab(d.numero) }]}
+  chips={[
+    ...(d.fecha ? [{ texto: fechaLarga(d.fecha) }] : []),
+    ...(d.tiempo ? [{ texto: `Tiempo: ${d.tiempo}` }] : []),
+    ...(d.serie ? [{ texto: `Serie: ${d.serie}` }] : []),
+  ]}
+  anterior={enlace(anterior)}
+  siguiente={enlace(siguiente)}
+  fecha={d.fecha}
+  revision={d.revision}
+>
+  <Content />
+  <Fragment slot="side">
+    <div class="side-box glass">
+      <h2>Ficha</h2>
+      <dl>
+        <div><dt>Área</dt><dd><a href={`/areas/${area.slug}/`}>{area.nombre}</a></dd></div>
+        <div><dt>Tipo</dt><dd>{d.tipo}</dd></div>
+        {d.tecnologias.length > 0 && <div><dt>Tecnologías</dt><dd>{d.tecnologias.join(' · ')}</dd></div>}
+        {d.revision && <div><dt>Última revisión</dt><dd>{fechaLarga(d.revision)}</dd></div>}
+        {d.repositorio && <div><dt>Código</dt><dd><a href={d.repositorio}>Repositorio</a></dd></div>}
+      </dl>
+    </div>
+    {notasRelacionadas.length > 0 && (
+      <div class="side-box glass">
+        <h2>Para entender el concepto</h2>
+        <ul>{notasRelacionadas.map((n) => <li><a href={`/notas/${n.id}/`}>{n.data.titulo}</a></li>)}</ul>
+      </div>
+    )}
+  </Fragment>
+</Entry>

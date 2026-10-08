@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { numeroLab, fechaLarga } from '../data/site';
+import { areaPorSlug } from '../data/areas';
+interface Props {
+  entradas: CollectionEntry<'lab'>[];
+  /** número que tendrá la próxima entrada */
+  siguiente: number;
+  formato?: boolean;
+}
+const { entradas, siguiente, formato = true } = Astro.props;
+---
+<div class="log glass">
+  {entradas.map((e) => {
+    const pub = e.data.estado === 'publicada';
+    const Tag = pub ? 'a' : 'div';
+    return (
+      <Tag class="log-row" href={pub ? `/lab/${e.id}/` : undefined}>
+        <span class="no">{numeroLab(e.data.numero)}</span>
+        <span class="tt">{e.data.titulo}</span>
+        <span class="meta">
+          <span>{areaPorSlug(e.data.area).nombre}</span>
+          <span>{e.data.tipo}</span>
+          {e.data.tecnologias.length > 0 && <span>{e.data.tecnologias.join(' · ')}</span>}
+          <span>{pub ? fechaLarga(e.data.fecha) : 'En preparación'}</span>
+        </span>
+      </Tag>
+    );
+  })}
+  <div class="log-row next">
+    <span class="no">{numeroLab(siguiente)}</span>
+    <span class="tt">Próxima entrada</span>
+    <span class="meta"><span>La numeración no se reinicia</span></span>
+  </div>
+  {formato && (
+    <div class="fmt">
+      <h4>Formato de cada entrada</h4>
+      <ol><li>Objetivo</li><li>Entorno</li><li>Proceso</li><li>Resultado</li><li>Qué salió mal</li><li>Aprendizajes</li></ol>
+    </div>
+  )}
+</div>

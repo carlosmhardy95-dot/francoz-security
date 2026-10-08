@@ -1,0 +1,18 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { ESTADOS } from '../data/site';
+import { areaPorSlug } from '../data/areas';
+interface Props { p: CollectionEntry<'proyectos'> }
+const { p } = Astro.props;
+const d = p.data;
+const estado = ESTADOS[d.estado];
+// Solo los proyectos publicados o en curso tienen su propia página.
+const tienePagina = d.estado === 'publicado' || d.estado === 'en-curso';
+const Tag = tienePagina ? 'a' : 'article';
+---
+<Tag class="proj glass" href={tienePagina ? `/proyectos/${p.id}/` : undefined}>
+  <div class="proj-top"><span class="code">{d.codigo}</span><span class:list={['chip', { live: estado.vivo }]}>{estado.texto}</span></div>
+  <h4>{d.titulo}</h4>
+  <p>{d.descripcion}</p>
+  <div class="proj-foot"><span>Área · {areaPorSlug(d.area).nombre}</span><span>Entregable: {d.entregable}</span></div>
+</Tag>

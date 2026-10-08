@@ -1,0 +1,60 @@
+---
+import { getCollection, render } from 'astro:content';
+import Entry from '../../layouts/Entry.astro';
+import { ESTADOS, numeroLab, fechaLarga } from '../../data/site';
+import { areaPorSlug } from '../../data/areas';
+
+export async function getStaticPaths() {
+  // Tienen página los proyectos publicados y los que están en curso
+  const proyectos = (
+    await getCollection('proyectos', (p) => p.data.estado === 'publicado' || p.data.estado === 'en-curso')
+  ).sort((a, b) => a.data.orden - b.data.orden);
+  const lab = await getCollection('lab', (e) => e.data.estado === 'publicada');
+  return proyectos.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      anterior: proyectos[i - 1] ?? null,
+      siguiente: proyectos[i + 1] ?? null,
+      labRelacionado: lab.filter((e) => entry.data.lab.includes(e.id)).sort((a, b) => a.data.numero - b.data.numero),
+    },
+  }));
+}
+
+const { entry, anterior, siguiente, labRelacionado } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const area = areaPorSlug(d.area);
+const estado = ESTADOS[d.estado];
+const enlace = (e: typeof entry | null) => (e ? { href: `/proyectos/${e.id}/`, titulo: `${e.data.codigo} · ${e.data.titulo}` } : null);
+---
+<Entry
+  titulo={`${d.codigo} · ${d.titulo}`}
+  descripcion={d.descripcion}
+  kicker={`Proyecto · ${area.nombre}`}
+  migas={[{ label: 'Inicio', href: '/' }, { label: 'Proyectos', href: '/proyectos/' }, { label: d.codigo }]}
+  chips={[{ texto: estado.texto, vivo: estado.vivo }, ...(d.actualizado ? [{ texto: `Actualizado el ${fechaLarga(d.actualizado)}` }] : [])]}
+  anterior={enlace(anterior)}
+  siguiente={enlace(siguiente)}
+  fecha={d.inicio}
+  revision={d.actualizado}
+>
+  <Content />
+  <Fragment slot="side">
+    <div class="side-box glass">
+      <h2>Ficha</h2>
+      <dl>
+        <div><dt>Área</dt><dd><a href={`/areas/${area.slug}/`}>{area.nombre}</a></dd></div>
+        <div><dt>Estado</dt><dd>{estado.texto}</dd></div>
+        <div><dt>Entregable</dt><dd>{d.entregable}</dd></div>
+        {d.inicio && <div><dt>Inicio</dt><dd>{fechaLarga(d.inicio)}</dd></div>}
+      </dl>
+    </div>
+    {labRelacionado.length > 0 && (
+      <div class="side-box glass">
+        <h2>Entradas del LAB</h2>
+        <ul>{labRelacionado.map((e) => <li><a href={`/lab/${e.id}/`}>{numeroLab(e.data.numero)} · {e.data.titulo}</a></li>)}</ul>
+      </div>
+    )}
+  </Fragment>
+</Entry>

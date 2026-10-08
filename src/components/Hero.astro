@@ -1,0 +1,146 @@
+---
+import '../styles/hero.css';
+import { NAV, SITE } from '../data/site';
+interface Props { labNumero: string; labEtiqueta: string }
+const { labNumero, labEtiqueta } = Astro.props;
+---
+<script is:inline>
+(function(){var d=document.documentElement;
+  if(!('animate' in Element.prototype))return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  d.classList.add('pre');
+  setTimeout(function(){d.classList.remove('pre')},4000);
+})();
+</script>
+<section class="hero" id="top" aria-label="FRANCOZ SECURITY">
+  <div class="card">
+    <div class="plate" aria-hidden="true">
+      <div class="halo"></div><div class="floor"></div>
+      <div class="caustic c1"></div><div class="caustic c2"></div>
+      <div class="sphere"><i class="blade-ref"></i><i class="glint"></i></div>
+      <div class="blade"></div>
+    </div>
+    <div class="tint"></div>
+
+    <div class="stack">
+      <div class="row">
+        <a class="brand l t" style="--x:68;--y:47" href="/" aria-label="FRANCOZ SECURITY, inicio">
+          <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="20" r="18.4" stroke="#0d1b30" stroke-width="1.3"/>
+            <path d="M3.4 27.4 36.6 12.6" stroke="#0d1b30" stroke-width="1.7" stroke-linecap="round"/>
+            <circle cx="14.4" cy="14.2" r="2.7" fill="#0d1b30"/>
+          </svg>
+          <b class="sx" style="--sx:0.94">FRANCOZ</b><small>SECURITY</small>
+        </a>
+        <button class="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="site-menu"><i></i><i></i></button>
+        <div class="menu" id="site-menu">
+          <nav class="nav" aria-label="Principal">
+            <a class="n-home" href="/" aria-label="Inicio"><svg viewBox="0 0 20 21" fill="none" aria-hidden="true"><path d="M2 8.4 10 2l8 6.4V18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" stroke="#202940" stroke-width="1.7" stroke-linejoin="round"/></svg></a>
+            <hr class="n-div">
+            {NAV.map((item) => <a href={item.href}><span>{item.label}</span></a>)}
+          </nav>
+          <a class="cta l t r" style="--x:58;--y:30" href="/contacto/">
+            <span>Contacto</span>
+            <i class="knob"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="m6.6 3.6 6 5.4-6 5.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-blk">
+        <p class="eyebrow l c sx" style="--x:65.7;--y:-209.2;--sx:0.95">Ciberseguridad · Riesgo · Inteligencia</p>
+        <h1 class="l c" style="--x:62.6;--y:-167.3">
+          <span class="sx" style="--sx:0.96">La seguridad</span><br>
+          <span class="sx" style="--sx:0.96">empieza antes.</span>
+        </h1>
+        <div class="tagrow">
+          <a class="play l c" style="--x:66;--y:34" href="#idea" aria-label="Bajar a la idea">
+            <svg viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M7 1.5v12.2M2.2 9 7 13.8 11.8 9" stroke="#0b1526" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <span class="tag l c sx" style="--x:131;--y:48.7;--sx:0.93">Entender el riesgo antes de que ocurra.</span>
+        </div>
+        <aside class="panel l c r" style="--x:58;--y:-165" aria-label={`Estado del proyecto: Etapa ${SITE.etapa.numero} de 4`}>
+          <span class="p-title sx" style="--sx:0.92">Etapa {SITE.etapa.numero}</span>
+          <i class="dot" aria-hidden="true"></i>
+          <span class="lens" aria-hidden="true">
+            <svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="10.5" stroke="#101c33" stroke-width="1.8"/><circle cx="18" cy="18" r="2" fill="#101c33"/><path d="M18 2.5v5M18 28.5v5M2.5 18h5M28.5 18h5" stroke="#101c33" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </span>
+          <p class="p-sub sx" style="--sx:0.92">Fundamentos,<br>laboratorios y<br>documentación</p>
+          <div class="scale" aria-hidden="true"><span>01</span><span>02</span><span>03</span><span>04</span></div>
+          <div class="track" aria-hidden="true"><i></i></div>
+        </aside>
+      </div>
+
+      <div class="row">
+        <div class="stats">
+          <div class="stat">
+            <span class="num l b sx" style="--x:64;--y:60.4;--sx:1">04</span>
+            <span class="lbl l b sx" style="--x:215;--y:96.7;--sx:0.96">Áreas de<br>conocimiento</span>
+          </div>
+          <span class="slash l b" style="--x:362;--y:76" aria-hidden="true"></span>
+          <div class="stat">
+            <span class="num l b sx" style="--x:422;--y:60.4;--sx:0.99">{labNumero}</span>
+            <span class="lbl l b sx" style="--x:690;--y:96.7;--sx:0.96">{labEtiqueta}<br>del Lab</span>
+          </div>
+        </div>
+        <a class="meet l b r" style="--x:59;--y:66" href="/lab/">
+          <span class="thumb" aria-hidden="true"></span>
+          <b>Entrar al Lab</b>
+          <i class="knob"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="m6.6 3.6 6 5.4-6 5.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+/* línea de tiempo de entrada */
+(()=>{
+  const d=document.documentElement;
+  if(!d.classList.contains('pre')) return;
+  const EXPO='cubic-bezier(.16,1,.3,1)', SOFT='cubic-bezier(.22,.7,.25,1)', GLASS='cubic-bezier(.2,.75,.28,1)';
+  const s=matchMedia('(max-width: 640px)').matches ? .86 : 1;
+  const running=[];
+  const q=x=>typeof x==='string'?document.querySelector(x):x;
+  const go=(el,kf,dur,delay,easing)=>{el=q(el); if(!el) return;
+    running.push(el.animate(kf,{duration:dur*s,delay:delay*s,easing,fill:'both'}));};
+  const rise=(el,delay,dur)=>go(el,[{clipPath:'inset(100% 0 -14% 0)',translate:'0 .16em'},{clipPath:'inset(-18% 0 -14% 0)',translate:'0 0'}],dur,delay,EXPO);
+  const lift=(el,delay,dist='.7em',dur=560)=>go(el,[{opacity:0,translate:'0 '+dist},{opacity:1,translate:'0 0'}],dur,delay,SOFT);
+  const settle=(el,delay,dur=760,from=.985,dist='1.1em')=>go(el,[{opacity:0,scale:from,translate:'0 '+dist},{opacity:1,scale:1,translate:'0 0'}],dur,delay,GLASS);
+  const h=document.querySelectorAll('.hero h1 .sx'), nums=document.querySelectorAll('.num'), lbls=document.querySelectorAll('.lbl');
+  lift('.brand',60,'.55em',600);
+  settle('.nav',150,700,.99,'.5em');
+  settle('.cta',200,700,.985,'.5em');
+  settle('.burger',150,700,.9,'.4em');
+  lift('.eyebrow',300,'.8em',520);
+  rise(h[0],380,980); rise(h[1],470,980);
+  settle('.play',720,640,.88,'.3em');
+  lift('.tag',770,'.7em',560);
+  settle('.panel',800,880,.982,'1.4em');
+  go('.lens',[{scale:.86},{scale:1}],700,1020,EXPO);
+  go('.dot',[{scale:0},{scale:1}],520,1080,EXPO);
+  go('.track i',[{scale:'0 1'},{scale:'1 1'}],820,1120,EXPO);
+  rise(nums[0],920,860); rise(nums[1],990,860);
+  lift(lbls[0],1030,'.6em',520); lift(lbls[1],1075,'.6em',520);
+  go('.slash',[{scale:'1 0'},{scale:'1 1'}],700,1010,EXPO);
+  settle('.meet',1140,820,.985,'1.2em');
+  Promise.all(running.map(a=>a.finished.catch(()=>{}))).then(()=>{
+    d.classList.remove('pre'); running.forEach(a=>a.cancel()); running.length=0;
+  });
+})();
+
+/* menú */
+(()=>{
+  const btn=document.querySelector('.burger'), menu=document.getElementById('site-menu');
+  if(!btn||!menu) return;
+  const set=open=>{btn.setAttribute('aria-expanded',open?'true':'false');
+    btn.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');
+    if(open) menu.setAttribute('data-open',''); else menu.removeAttribute('data-open');};
+  btn.addEventListener('click',e=>{e.stopPropagation(); set(btn.getAttribute('aria-expanded')!=='true');});
+  menu.addEventListener('click',e=>{ if(e.target.closest('a')) set(false); });
+  document.addEventListener('click',e=>{ if(!btn.contains(e.target)&&!menu.contains(e.target)) set(false); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&btn.getAttribute('aria-expanded')==='true'){ set(false); btn.focus(); } });
+  const mq=matchMedia('(min-aspect-ratio: 1/1)');
+  mq.addEventListener('change',e=>{ if(e.matches) set(false); });
+})();
+
+</script>

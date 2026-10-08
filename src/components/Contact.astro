@@ -1,0 +1,39 @@
+---
+import { SITE } from '../data/site';
+interface Props { titulo?: 'h1' | 'h2' }
+const { titulo = 'h2' } = Astro.props;
+const H = titulo;
+---
+<div class="contact glass">
+  <div class="orb" aria-hidden="true"></div>
+  <p class="kicker">Contacto</p>
+  <H class="title" id="contacto-t">Si te interesa el antes, hablemos.</H>
+  <p class="lead" style="margin-top:24px">FRANCOZ no ofrece servicios todavía. Sí está abierto a conversar sobre colaboraciones, laboratorios, temas para investigar y oportunidades futuras.</p>
+  <div class="reasons">
+    <span class="chip">Colaboraciones</span><span class="chip">Revisión de laboratorios</span><span class="chip">Temas para investigar</span><span class="chip">Comunidad</span><span class="chip">Oportunidades futuras</span>
+  </div>
+  <div class="mailrow">
+    <a class="mail" id="mail" href={`mailto:${SITE.correo}`}>{SITE.correo}</a>
+    <button class="btn" type="button" id="copy">
+      <span id="copy-label">Copiar correo</span>
+      <i><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2" stroke="#fff" stroke-width="1.5" /><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="#fff" stroke-width="1.5" /></svg></i>
+    </button>
+  </div>
+  <p class="micro">Respuesta por correo. Sin listas de difusión.</p>
+</div>
+
+<script>
+  const b = document.getElementById('copy');
+  const m = document.getElementById('mail');
+  const l = document.getElementById('copy-label');
+  if (b && m && l) {
+    b.addEventListener('click', () => {
+      const done = (t: string) => { l.textContent = t; setTimeout(() => (l.textContent = 'Copiar correo'), 2200); };
+      const select = () => {
+        const r = document.createRange(); r.selectNodeContents(m);
+        const s = getSelection(); s?.removeAllRanges(); s?.addRange(r); done('Seleccionado: copialo');
+      };
+      try { navigator.clipboard.writeText(m.textContent!.trim()).then(() => done('Copiado'), select); } catch { select(); }
+    });
+  }
+</script>

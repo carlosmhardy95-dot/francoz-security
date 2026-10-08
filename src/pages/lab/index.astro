@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import LabLog from '../../components/LabLog.astro';
+import Rules from '../../components/Rules.astro';
+import { todoElLab, resumenLab } from '../../data/contenido';
+
+const lab = await todoElLab();
+const { siguiente } = await resumenLab();
+---
+<Base title="FRANCOZ LAB" description="La bitácora técnica de FRANCOZ SECURITY: cada práctica numerada, con objetivo, entorno, proceso, resultado, errores y aprendizajes.">
+  <main id="contenido">
+    <PageHead
+      kicker="FRANCOZ LAB"
+      titulo="La bitácora técnica."
+      lead="Cada práctica tiene número, fecha y el mismo formato: objetivo, entorno, proceso, resultado y aprendizajes. Errores incluidos."
+      migas={[{ label: 'Inicio', href: '/' }, { label: 'Lab' }]}
+    />
+    <section class="sec">
+      <div class="wrap">
+        <div class="ev" style="margin-top:0">
+          <div>
+            <div class="colhead"><h2 style="font-size:22px;font-weight:470;margin:0">Entradas</h2><p>Numeradas en orden de publicación</p></div>
+            <LabLog entradas={lab} siguiente={siguiente} formato={false} />
+          </div>
+          <div>
+            <div class="colhead"><h2 style="font-size:22px;font-weight:470;margin:0">Cómo se documenta</h2></div>
+            <div class="log glass" style="padding-top:20px">
+              <div class="fmt" style="margin-top:0">
+                <h4>Formato de cada entrada</h4>
+                <ol><li>Objetivo</li><li>Entorno</li><li>Proceso</li><li>Resultado</li><li>Qué salió mal</li><li>Aprendizajes</li></ol>
+              </div>
+            </div>
+            <Rules />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
