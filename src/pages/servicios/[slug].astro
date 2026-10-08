@@ -1,0 +1,92 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import Rules from '../../components/Rules.astro';
+import { areaPorSlug } from '../../data/areas';
+import { CTA, SITE } from '../../data/site';
+
+export async function getStaticPaths() {
+  const servicios = (await getCollection('servicios')).sort((a, b) => a.data.orden - b.data.orden);
+  return servicios.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      anterior: servicios[i - 1] ?? null,
+      siguiente: servicios[i + 1] ?? null,
+      relacionados: servicios.filter((s) => s.id !== entry.id && s.data.area === entry.data.area),
+    },
+  }));
+}
+
+const { entry, anterior, siguiente, relacionados } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const area = areaPorSlug(d.area);
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: d.nombre,
+    alternateName: d.termino,
+    description: d.resumen,
+    serviceType: d.nombre,
+    url: pageUrl,
+    provider: { '@type': 'ProfessionalService', name: SITE.nombre, url: Astro.site?.toString() },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: new URL('/', Astro.site).toString() },
+      { '@type': 'ListItem', position: 2, name: 'Servicios', item: new URL('/servicios/', Astro.site).toString() },
+      { '@type': 'ListItem', position: 3, name: d.nombre, item: pageUrl },
+    ],
+  },
+];
+const pedir = `${CTA.href}?servicio=${entry.id}`;
+---
+<Base title={d.termino && !d.nombre.includes(d.termino) ? `${d.nombre} (${d.termino})` : d.nombre} description={d.resumen} jsonld={jsonld}>
+  <main id="contenido">
+    <PageHead
+      kicker={`Servicio ${d.codigo} · ${area.nombre}`}
+      titulo={d.nombre}
+      lead={d.definicion}
+      migas={[{ label: 'Inicio', href: '/' }, { label: 'Servicios', href: '/servicios/' }, { label: d.nombre }]}
+    >
+      <div class="meta-row">
+        {d.termino && <span class="chip">{d.termino}</span>}
+        {d.incluye.map((x) => <span class="chip">{x}</span>)}
+      </div>
+    </PageHead>
+    <div class="wrap">
+      <div class="entry-grid">
+        <article class="prose"><Content /></article>
+        <aside class="side">
+          <div class="side-box glass">
+            <h2>En pocas palabras</h2>
+            <dl>
+              <div><dt>Problema</dt><dd>{d.problema}</dd></div>
+              <div><dt>Resultado</dt><dd>{d.beneficio}</dd></div>
+            </dl>
+            <a class="btn" href={pedir} style="text-decoration:none;margin-top:20px;width:100%;justify-content:space-between">
+              {CTA.texto}<i><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="m6.6 3.6 6 5.4-6 5.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></svg></i>
+            </a>
+          </div>
+          {relacionados.length > 0 && (
+            <div class="side-box glass">
+              <h2>Otros servicios de {area.nombre}</h2>
+              <ul>{relacionados.map((s) => <li><a href={`/servicios/${s.id}/`}>{s.data.nombre}</a></li>)}</ul>
+            </div>
+          )}
+          <Rules />
+        </aside>
+      </div>
+      <nav class="pager" aria-label="Más servicios">
+        {anterior && <a href={`/servicios/${anterior.id}/`}><span>Anterior</span><b>{anterior.data.nombre}</b></a>}
+        {siguiente && <a class="nx" href={`/servicios/${siguiente.id}/`}><span>Siguiente</span><b>{siguiente.data.nombre}</b></a>}
+      </nav>
+    </div>
+  </main>
+</Base>

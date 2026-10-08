@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { CTA } from '../data/site';
+---
+<Base title="Marco de trabajo" description="Cómo trabaja FRANCOZ SECURITY: autorización por escrito, alcance definido, confidencialidad, pruebas controladas y manejo responsable de la información.">
+  <main id="contenido">
+    <PageHead
+      kicker="Marco de trabajo"
+      titulo="Reglas claras antes de empezar."
+      lead="Cada servicio se presta bajo las mismas condiciones. Las conocés antes de la primera prueba y quedan por escrito."
+      migas={[{ label: 'Inicio', href: '/' }, { label: 'Marco de trabajo' }]}
+    />
+    <div class="wrap">
+      <div class="entry-grid">
+        <article class="prose">
+          <h2>1. Autorización por escrito y alcance definido</h2>
+          <p>Ninguna evaluación técnica empieza sin una autorización firmada por quien puede darla y sin un alcance que diga qué sistemas se incluyen, cuáles no, en qué horarios y con qué técnicas. En Argentina, acceder sin permiso a un sistema o dato informático de acceso restringido es un delito según la <a href="https://www.argentina.gob.ar/justicia/derechofacil/leysimple/delitos-informaticos">Ley 26.388</a>.</p>
+
+          <h2>2. Confidencialidad</h2>
+          <p>Toda la información de tu organización, incluidos los hallazgos, se trata como confidencial. Cuando corresponde, el trabajo se firma junto con un acuerdo de confidencialidad.</p>
+
+          <h2>3. Pruebas controladas</h2>
+          <p>Las pruebas se hacen en ventanas acordadas y con un contacto designado de tu lado. Si algo pone en riesgo la operación, la prueba se detiene y se avisa de inmediato.</p>
+
+          <h2>4. Manejo de la información</h2>
+          <p>Los datos a los que se accede durante un trabajo se usan solo para ese trabajo. Al terminar, se devuelven o se eliminan según lo acordado.</p>
+
+          <h2>5. OSINT dentro de la ley</h2>
+          <p>Las investigaciones de fuentes abiertas usan únicamente información pública, con fines definidos y autorizados por la organización. No se accede a cuentas ni a sistemas privados.</p>
+
+          <h2>6. Informes honestos</h2>
+          <p>Cada informe dice qué se encontró, qué riesgo implica, cómo se corrige y qué quedó fuera del alcance. Ninguna evaluación garantiza la ausencia total de vulnerabilidades, y el informe lo deja claro.</p>
+
+          <h2>7. Investigación en FRANCOZ LAB</h2>
+          <p>Las investigaciones del laboratorio se hacen en entornos propios y aislados, o con autorización escrita. Lo que se publica no contiene datos de clientes ni de terceros.</p>
+        </article>
+        <aside class="side">
+          <div class="side-box glass">
+            <h2>En resumen</h2>
+            <ul style="gap:8px">
+              <li>Autorización y alcance por escrito</li><li>Confidencialidad</li><li>Pruebas controladas</li><li>Datos solo para el trabajo</li><li>Informes honestos</li>
+            </ul>
+            <a class="textlink" href={CTA.href} style="font-size:14.5px;margin-top:16px">{CTA.texto}</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+</Base>

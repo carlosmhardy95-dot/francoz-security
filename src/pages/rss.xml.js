@@ -11,7 +11,7 @@ export async function GET(context) {
       title: n.data.titulo,
       description: n.data.descripcion,
       pubDate: n.data.fecha ?? new Date(),
-      link: `/notas/${n.id}/`,
+      link: `/insights/${n.id}/`,
     })),
     ...lab.map((e) => ({
       title: `FRANCOZ LAB ${numeroLab(e.data.numero)} — ${e.data.titulo}`,

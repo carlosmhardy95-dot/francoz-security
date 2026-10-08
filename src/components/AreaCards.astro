@@ -1,27 +1,29 @@
 ---
+// Las 4 áreas de seguridad, cada una con sus servicios. Mismo diseño que antes.
 import { AREAS } from '../data/areas';
-interface Props { enlazar?: boolean }
-const { enlazar = true } = Astro.props;
-const dominios = AREAS.filter((a) => a.tipo === 'Dominio');
+import { todosLosServicios } from '../data/contenido';
+
+const servicios = await todosLosServicios();
+const deArea = (slug: string) => servicios.filter((s) => s.data.area === slug);
+const principales = AREAS.filter((a) => a.tipo === 'Área');
 const transversal = AREAS.find((a) => a.tipo === 'Transversal')!;
-const Tag = enlazar ? 'a' : 'article';
 ---
 <div class="areas">
-  {dominios.map((a) => (
-    <Tag class="area glass" href={enlazar ? `/areas/${a.slug}/` : undefined}>
-      <div class="area-head"><span class="area-num">{a.numero}</span><span class="chip">{a.tipo}</span></div>
+  {principales.map((a) => (
+    <a class="area glass" href={`/servicios/#${a.slug}`}>
+      <div class="area-head"><span class="area-num">{a.numero}</span><span class="chip">{deArea(a.slug).length} servicios</span></div>
       <h3>{a.nombre}</h3>
       <p class="sub">{a.sub}</p>
       <p class="focus">{a.enfoque}</p>
-      <div class="topics">{a.temas.map((t) => <span class="chip">{t}</span>)}</div>
-    </Tag>
+      <div class="topics">{deArea(a.slug).map((s) => <span class="chip">{s.data.nombre}</span>)}</div>
+    </a>
   ))}
-  <Tag class="area glass wide" href={enlazar ? `/areas/${transversal.slug}/` : undefined}>
+  <a class="area glass wide" href={`/servicios/#${transversal.slug}`}>
     <div class="left">
       <div class="area-head" style="justify-content:flex-start"><span class="area-num">{transversal.numero}</span><span class="chip">{transversal.tipo}</span></div>
       <h3>{transversal.nombre}</h3>
       <p class="focus" style="margin-top:6px">{transversal.enfoque}</p>
     </div>
-    <div class="topics">{transversal.temas.map((t) => <span class="chip">{t}</span>)}</div>
-  </Tag>
+    <div class="topics">{deArea(transversal.slug).map((s) => <span class="chip">{s.data.nombre}</span>)}</div>
+  </a>
 </div>

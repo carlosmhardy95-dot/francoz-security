@@ -4,14 +4,10 @@ import { fechaLarga, minutosDeLectura } from '../data/site';
 import { areaPorSlug } from '../data/areas';
 interface Props { n: CollectionEntry<'notas'> }
 const { n } = Astro.props;
-const pub = n.data.estado === 'publicada';
-const Tag = pub ? 'a' : 'article';
 ---
-<Tag class="notecard" href={pub ? `/notas/${n.id}/` : undefined}>
+<a class="notecard" href={`/insights/${n.id}/`}>
   <span class="area-num"><span>{areaPorSlug(n.data.area).nombre}</span><span>{n.data.tipo}</span></span>
   <h3>{n.data.titulo}</h3>
   <p>{n.data.descripcion}</p>
-  <span class="soon">
-    {pub ? `${fechaLarga(n.data.fecha)} · ${minutosDeLectura(n.body)} min de lectura` : 'En preparación'}
-  </span>
-</Tag>
+  <span class="soon">{fechaLarga(n.data.fecha)} · {minutosDeLectura(n.body)} min de lectura</span>
+</a>

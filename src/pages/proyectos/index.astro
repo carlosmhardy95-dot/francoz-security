@@ -1,23 +1,4 @@
 ---
-import Base from '../../layouts/Base.astro';
-import PageHead from '../../components/PageHead.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
-import { todosLosProyectos } from '../../data/contenido';
-
-const proyectos = await todosLosProyectos();
+// Dirección vieja: redirige a la nueva. (Se mantiene para que los enlaces antiguos sigan funcionando.)
+return Astro.redirect('/servicios/');
 ---
-<Base title="Proyectos" description="Proyectos de FRANCOZ SECURITY: casos completos que integran varias prácticas y terminan en un entregable revisable.">
-  <main id="contenido">
-    <PageHead
-      kicker="Proyectos"
-      titulo="El método, aplicado de punta a punta."
-      lead="Cada proyecto parte de un escenario, define un alcance y termina en un entregable que cualquiera puede revisar. Todos los casos usan entornos propios u organizaciones ficticias."
-      migas={[{ label: 'Inicio', href: '/' }, { label: 'Proyectos' }]}
-    />
-    <section class="sec">
-      <div class="wrap">
-        <div class="listgrid">{proyectos.map((p) => <ProjectCard p={p} />)}</div>
-      </div>
-    </section>
-  </main>
-</Base>

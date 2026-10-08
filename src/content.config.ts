@@ -2,29 +2,47 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-// Las 4 áreas de conocimiento. Todo el contenido pertenece a una.
-const AREA = z.enum(['defensa', 'riesgo', 'inteligencia', 'automatizacion']);
+// Las 4 áreas de seguridad. Todo el contenido pertenece a una.
+const AREA = z.enum(['evaluacion', 'proteccion', 'riesgo-inteligencia', 'personas-respuesta']);
 
 // Los archivos que empiezan con "_" (las plantillas) no se publican.
 const soloPublicables = '**/[^_]*.md';
 
-/** NOTAS — explican conceptos (/notas/...) */
+/** SERVICIOS — el catálogo comercial (/servicios/...) */
+const servicios = defineCollection({
+  loader: glob({ pattern: soloPublicables, base: './src/content/servicios' }),
+  schema: z.object({
+    codigo: z.string().regex(/^S-\d{2}$/, 'El código tiene que ser S- y dos números, por ejemplo S-01.'),
+    nombre: z.string(),
+    termino: z.string().optional(),
+    area: AREA,
+    resumen: z.string().max(170, 'El resumen tiene que tener menos de 170 caracteres (es el que muestra Google).'),
+    definicion: z.string(),
+    problema: z.string(),
+    beneficio: z.string(),
+    incluye: z.array(z.string()).default([]),
+    destacado: z.boolean().default(false),
+    orden: z.number().default(99),
+  }),
+});
+
+/** INSIGHTS — artículos (/insights/...). La carpeta se sigue llamando "notas". */
 const notas = defineCollection({
   loader: glob({ pattern: soloPublicables, base: './src/content/notas' }),
   schema: z.object({
     titulo: z.string(),
     descripcion: z.string().max(170, 'La descripción tiene que tener menos de 170 caracteres (es la que muestra Google).'),
     area: AREA,
-    tipo: z.enum(['Concepto', 'Guía', 'Comparación']),
+    tipo: z.enum(['Concepto', 'Guía', 'Comparación', 'Análisis']),
     estado: z.enum(['publicada', 'en-preparacion']).default('en-preparacion'),
     fecha: z.coerce.date().optional(),
     revision: z.coerce.date().optional(),
-    // nombres de archivo (sin .md) de entradas del LAB relacionadas
     lab: z.array(z.string()).default([]),
+    servicios: z.array(z.string()).default([]),
   }),
 });
 
-/** LAB — bitácora técnica numerada (/lab/...) */
+/** FRANCOZ LAB — investigación aplicada (/lab/...) */
 const lab = defineCollection({
   loader: glob({ pattern: soloPublicables, base: './src/content/lab' }),
   schema: z.object({
@@ -32,10 +50,9 @@ const lab = defineCollection({
     titulo: z.string(),
     descripcion: z.string().max(170),
     area: AREA,
-    tipo: z.enum(['Montaje', 'Práctica', 'Análisis', 'Herramienta', 'Write-up']),
+    tipo: z.enum(['Entorno', 'Análisis', 'Investigación', 'Herramienta', 'Write-up']),
     tecnologias: z.array(z.string()).default([]),
     serie: z.string().optional(),
-    tiempo: z.string().optional(),
     repositorio: z.string().optional(),
     estado: z.enum(['publicada', 'en-preparacion']).default('en-preparacion'),
     fecha: z.coerce.date().optional(),
@@ -43,21 +60,4 @@ const lab = defineCollection({
   }),
 });
 
-/** PROYECTOS — casos completos con entregable (/proyectos/...) */
-const proyectos = defineCollection({
-  loader: glob({ pattern: soloPublicables, base: './src/content/proyectos' }),
-  schema: z.object({
-    codigo: z.string().regex(/^P-\d{2}$/, 'El código tiene que ser P- y dos números, por ejemplo P-01.'),
-    titulo: z.string(),
-    descripcion: z.string().max(170),
-    area: AREA,
-    estado: z.enum(['publicado', 'en-curso', 'proximo', 'en-preparacion']).default('en-preparacion'),
-    entregable: z.string(),
-    orden: z.number().default(99),
-    inicio: z.coerce.date().optional(),
-    actualizado: z.coerce.date().optional(),
-    lab: z.array(z.string()).default([]),
-  }),
-});
-
-export const collections = { notas, lab, proyectos };
+export const collections = { servicios, notas, lab };

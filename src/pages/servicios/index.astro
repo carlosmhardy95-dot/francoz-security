@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import { AREAS } from '../../data/areas';
+import { CTA } from '../../data/site';
+import { todosLosServicios } from '../../data/contenido';
+
+const servicios = await todosLosServicios();
+const grupos = AREAS.map((a) => ({ area: a, items: servicios.filter((s) => s.data.area === a.slug) })).filter((g) => g.items.length);
+---
+<Base
+  title="Servicios de ciberseguridad"
+  description="Servicios de ciberseguridad para empresas y PyMEs: evaluación, análisis de vulnerabilidades, pentesting, hardening, seguridad de redes, gestión de riesgos y más."
+>
+  <main id="contenido">
+    <PageHead
+      kicker="Servicios"
+      titulo="Servicios de ciberseguridad para empresas y PyMEs."
+      lead={`${servicios.length} servicios organizados en cuatro áreas. Se pueden contratar por separado o combinar en un mismo trabajo, siempre con un alcance definido por escrito.`}
+      migas={[{ label: 'Inicio', href: '/' }, { label: 'Servicios' }]}
+    />
+    <section class="sec">
+      <div class="wrap">
+        {grupos.map((g, i) => (
+          <div class={i > 0 ? 'block' : undefined} id={g.area.slug} style="scroll-margin-top:24px">
+            <div class="colhead">
+              <h2 style="font-size:22px;font-weight:470;margin:0">{g.area.numero} · {g.area.nombre}</h2>
+              <p>{g.area.enfoque}</p>
+            </div>
+            <div class="listgrid">{g.items.map((s) => <ServiceCard s={s} />)}</div>
+          </div>
+        ))}
+
+        <div class="block contact glass">
+          <div class="orb" aria-hidden="true"></div>
+          <p class="kicker">Por dónde empezar</p>
+          <h2 class="title" style="font-size:clamp(30px,3.8vw,48px)">¿No sabés qué servicio necesitás?</h2>
+          <p class="lead" style="margin-top:20px">La evaluación de ciberseguridad es el punto de partida recomendado: muestra dónde está tu organización y qué conviene hacer primero.</p>
+          <div class="mailrow">
+            <a class="btn" href={CTA.href} style="text-decoration:none">{CTA.texto}<i><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="m6.6 3.6 6 5.4-6 5.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></svg></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>

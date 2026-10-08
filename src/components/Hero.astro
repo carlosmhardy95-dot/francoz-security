@@ -1,8 +1,9 @@
 ---
 import '../styles/hero.css';
-import { NAV, SITE } from '../data/site';
-interface Props { labNumero: string; labEtiqueta: string }
-const { labNumero, labEtiqueta } = Astro.props;
+import { NAV, CTA } from '../data/site';
+interface Props { servicios: number }
+const { servicios } = Astro.props;
+const numServicios = String(servicios).padStart(2, '0');
 ---
 <script is:inline>
 (function(){var d=document.documentElement;
@@ -39,33 +40,33 @@ const { labNumero, labEtiqueta } = Astro.props;
             <hr class="n-div">
             {NAV.map((item) => <a href={item.href}><span>{item.label}</span></a>)}
           </nav>
-          <a class="cta l t r" style="--x:58;--y:30" href="/contacto/">
-            <span>Contacto</span>
+          <a class="cta l t r" style="--x:58;--y:30" href={CTA.href}>
+            <span>{CTA.texto}</span>
             <i class="knob"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="m6.6 3.6 6 5.4-6 5.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></i>
           </a>
         </div>
       </div>
 
       <div class="hero-blk">
-        <p class="eyebrow l c sx" style="--x:65.7;--y:-209.2;--sx:0.95">Ciberseguridad · Riesgo · Inteligencia</p>
+        <p class="eyebrow l c sx" style="--x:65.7;--y:-209.2;--sx:0.95">Ciberseguridad para empresas y PyMEs</p>
         <h1 class="l c" style="--x:62.6;--y:-167.3">
           <span class="sx" style="--sx:0.96">La seguridad</span><br>
-          <span class="sx" style="--sx:0.96">empieza antes.</span>
+          <span class="sx" style="--sx:0.96">se decide antes.</span>
         </h1>
         <div class="tagrow">
-          <a class="play l c" style="--x:66;--y:34" href="#idea" aria-label="Bajar a la idea">
+          <a class="play l c" style="--x:66;--y:34" href="#por-que" aria-label="Bajar: por qué importa">
             <svg viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M7 1.5v12.2M2.2 9 7 13.8 11.8 9" stroke="#0b1526" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <span class="tag l c sx" style="--x:131;--y:48.7;--sx:0.93">Entender el riesgo antes de que ocurra.</span>
+          <span class="tag l c sx" style="--x:131;--y:48.7;--sx:0.93">Evaluamos tu exposición y te decimos qué corregir primero.</span>
         </div>
-        <aside class="panel l c r" style="--x:58;--y:-165" aria-label={`Estado del proyecto: Etapa ${SITE.etapa.numero} de 4`}>
-          <span class="p-title sx" style="--sx:0.92">Etapa {SITE.etapa.numero}</span>
+        <aside class="panel l c r" style="--x:58;--y:-165" aria-label="Método de trabajo en cinco etapas: empieza por la evaluación">
+          <span class="p-title sx" style="--sx:0.92">Evaluación</span>
           <i class="dot" aria-hidden="true"></i>
           <span class="lens" aria-hidden="true">
             <svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="10.5" stroke="#101c33" stroke-width="1.8"/><circle cx="18" cy="18" r="2" fill="#101c33"/><path d="M18 2.5v5M18 28.5v5M2.5 18h5M28.5 18h5" stroke="#101c33" stroke-width="1.8" stroke-linecap="round"/></svg>
           </span>
-          <p class="p-sub sx" style="--sx:0.92">Fundamentos,<br>laboratorios y<br>documentación</p>
-          <div class="scale" aria-hidden="true"><span>01</span><span>02</span><span>03</span><span>04</span></div>
+          <p class="p-sub sx" style="--sx:0.92">Exposición,<br>riesgos y<br>plan de acción</p>
+          <div class="scale" aria-hidden="true"><span>01</span><span>02</span><span>03</span><span>04</span><span>05</span></div>
           <div class="track" aria-hidden="true"><i></i></div>
         </aside>
       </div>
@@ -74,17 +75,17 @@ const { labNumero, labEtiqueta } = Astro.props;
         <div class="stats">
           <div class="stat">
             <span class="num l b sx" style="--x:64;--y:60.4;--sx:1">04</span>
-            <span class="lbl l b sx" style="--x:215;--y:96.7;--sx:0.96">Áreas de<br>conocimiento</span>
+            <span class="lbl l b sx" style="--x:215;--y:96.7;--sx:0.96">Áreas de<br>seguridad</span>
           </div>
           <span class="slash l b" style="--x:362;--y:76" aria-hidden="true"></span>
           <div class="stat">
-            <span class="num l b sx" style="--x:422;--y:60.4;--sx:0.99">{labNumero}</span>
-            <span class="lbl l b sx" style="--x:690;--y:96.7;--sx:0.96">{labEtiqueta}<br>del Lab</span>
+            <span class="num l b sx" style="--x:422;--y:60.4;--sx:0.99">{numServicios}</span>
+            <span class="lbl l b sx" style="--x:568;--y:96.7;--sx:0.96">Servicios<br>especializados</span>
           </div>
         </div>
-        <a class="meet l b r" style="--x:59;--y:66" href="/lab/">
+        <a class="meet l b r" style="--x:59;--y:66" href="/servicios/">
           <span class="thumb" aria-hidden="true"></span>
-          <b>Entrar al Lab</b>
+          <b>Ver servicios</b>
           <i class="knob"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="m6.6 3.6 6 5.4-6 5.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></i>
         </a>
       </div>

@@ -1,49 +1,66 @@
 ---
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
-import Roadmap from '../components/Roadmap.astro';
+import Proceso from '../components/Proceso.astro';
 import AreaCards from '../components/AreaCards.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import ServiceCard from '../components/ServiceCard.astro';
 import LabLog from '../components/LabLog.astro';
 import Rules from '../components/Rules.astro';
 import NoteCard from '../components/NoteCard.astro';
 import Contact from '../components/Contact.astro';
-import { SITE } from '../data/site';
-import { todoElLab, todasLasNotas, todosLosProyectos, resumenLab } from '../data/contenido';
+import { SITE, CTA } from '../data/site';
+import { todosLosServicios, labPublicado, insightsPublicados } from '../data/contenido';
 
-const lab = await todoElLab();
-const resumen = await resumenLab();
-const proyectos = (await todosLosProyectos()).slice(0, 2);
-const notas = (await todasLasNotas()).slice(0, 3);
+const servicios = await todosLosServicios();
+const destacados = servicios.filter((s) => s.data.destacado).slice(0, 4);
+const lab = (await labPublicado()).slice(0, 3);
+const insights = (await insightsPublicados()).slice(0, 3);
 
-const jsonld = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: SITE.nombre,
-  description: SITE.descripcion,
-  url: Astro.site?.toString(),
-  inLanguage: 'es-AR',
-};
+const url = Astro.site?.toString();
+const jsonld = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.nombre, description: SITE.descripcion, url, inLanguage: 'es-AR' },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    name: SITE.nombre,
+    description: SITE.descripcion,
+    url,
+    slogan: SITE.lema,
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Servicios de ciberseguridad',
+      itemListElement: servicios.map((s) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: s.data.nombre, description: s.data.resumen, url: new URL(`/servicios/${s.id}/`, Astro.site).toString() },
+      })),
+    },
+  },
+];
+const flecha = '<svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>';
 ---
 <Base home jsonld={jsonld}>
-  <Hero labNumero={resumen.numero} labEtiqueta={resumen.etiqueta} />
+  <Hero servicios={servicios.length} />
 
   <main class="site" id="contenido">
-    <section class="sec" id="idea" aria-labelledby="idea-t">
+    <!-- Propuesta de valor -->
+    <section class="sec" id="por-que" aria-labelledby="pq-t">
       <div class="wrap">
         <div class="split">
           <div>
-            <p class="kicker">La idea</p>
-            <h2 class="title" id="idea-t">Todo incidente tiene un antes.</h2>
+            <p class="kicker">Por qué importa</p>
+            <h2 class="title" id="pq-t">Un incidente casi nunca empieza el día que se nota.</h2>
           </div>
-          <p class="lead">Un incidente rara vez empieza el día en que se nota. Empieza en un activo que nadie inventarió, una contraseña que nadie cambió, un backup que nadie probó. FRANCOZ SECURITY trabaja en ese tramo: el tiempo en el que todavía se puede entender, medir y preparar.</p>
+          <div>
+            <p class="lead">Facturación, clientes, correo, proveedores: hoy casi todo pasa por sistemas digitales. Por eso una configuración olvidada, una cuenta sin segundo factor o un backup que nunca se probó dejan de ser un detalle técnico y se convierten en un riesgo para el negocio.</p>
+            <p class="lead">Las amenazas cambian todo el tiempo. Lo que sí se puede controlar es cuánto se les facilita el camino. Prevenir cuesta menos que reaccionar, y empieza por saber dónde está el problema.</p>
+          </div>
         </div>
         <div class="tl" role="list" aria-label="Antes, durante y después de un incidente">
           <div class="tl-row">
             <div class="seg now" role="listitem">
               <div class="seg-name">Antes</div>
-              <div class="seg-verbs"><span>Entender.</span><span>Medir.</span><span>Preparar.</span></div>
-              <span class="chip live">Acá trabaja FRANCOZ</span>
+              <div class="seg-verbs"><span>Evaluar.</span><span>Priorizar.</span><span>Fortalecer.</span></div>
+              <span class="chip live">Acá empieza FRANCOZ</span>
             </div>
             <div class="seg" role="listitem">
               <div class="seg-name">Durante</div>
@@ -52,78 +69,138 @@ const jsonld = {
             <div class="seg" role="listitem">
               <div class="seg-name">Después</div>
               <div class="seg-verbs"><span>Recuperar.</span><span>Aprender.</span></div>
-              <p class="tl-back">↺ Lo aprendido vuelve al antes.</p>
+              <p class="tl-back">↺ Cada incidente mejora la prevención.</p>
             </div>
           </div>
-          <div class="loop" aria-hidden="true"><span>Lo aprendido vuelve al antes</span></div>
+          <div class="loop" aria-hidden="true"><span>Cada incidente mejora la prevención</span></div>
         </div>
       </div>
     </section>
 
-    <section class="sec" id="etapa" aria-labelledby="etapa-t">
-      <div class="wrap">
-        <div class="split" style="align-items:start">
-          <div>
-            <p class="kicker">Etapa actual</p>
-            <h2 class="title" id="etapa-t">Una marca que se construye a la vista.</h2>
-            <p class="lead" style="margin-top:28px">FRANCOZ SECURITY nace con un objetivo de largo plazo: convertirse en una práctica especializada en ciberseguridad, gestión de riesgos e inteligencia. Hoy transita su primera etapa: formar criterio, montar laboratorios y documentar cada paso en público.</p>
-            <p class="lead">Todavía no hay servicios a la venta. Hay método, práctica y un registro abierto de todo lo que se aprende.</p>
-            <a class="textlink" href="/sobre/">Leer el manifiesto <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
-          </div>
-          <Roadmap />
-        </div>
-      </div>
-    </section>
-
+    <!-- Áreas de seguridad -->
     <section class="sec" id="areas" aria-labelledby="areas-t">
       <div class="wrap">
-        <p class="kicker">Áreas de conocimiento</p>
-        <h2 class="title" id="areas-t">Cuatro áreas, un mismo método.</h2>
+        <p class="kicker">Áreas de seguridad</p>
+        <h2 class="title" id="areas-t">Cuatro áreas para cubrir todo el ciclo.</h2>
         <p class="note">
           <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2" /><path d="M8 7v4.5M8 4.6v.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg>
-          Áreas de estudio y práctica. No son servicios disponibles: son el mapa de lo que FRANCOZ investiga y documenta.
+          Cada área agrupa servicios que se pueden contratar por separado o combinar en un mismo trabajo.
         </p>
         <AreaCards />
       </div>
     </section>
 
-    <section class="sec" id="evidencia" aria-labelledby="ev-t">
+    <!-- Servicios destacados + FRANCOZ LAB -->
+    <section class="sec" id="servicios" aria-labelledby="sv-t">
       <div class="wrap">
-        <p class="kicker">Evidencia</p>
-        <h2 class="title" id="ev-t">El método, aplicado de punta a punta.</h2>
-        <p class="lead" style="margin-top:24px">Proyectos que integran varias prácticas y terminan en un entregable revisable, y una bitácora técnica donde cada práctica queda numerada.</p>
+        <p class="kicker">Servicios</p>
+        <h2 class="title" id="sv-t">Servicios para entender, evaluar y reducir el riesgo.</h2>
+        <p class="lead" style="margin-top:24px">Sin paquetes cerrados: cada trabajo se define según el tamaño de tu organización, tu infraestructura y lo que necesitás resolver.</p>
         <div class="ev">
           <div>
-            <div class="colhead"><h3>Proyectos</h3><a class="textlink" href="/proyectos/" style="margin:0;font-size:14.5px">Ver todos</a></div>
-            <div class="projs">{proyectos.map((p) => <ProjectCard p={p} />)}</div>
+            <div class="colhead"><h3>Servicios principales</h3><a class="textlink" href="/servicios/" style="margin:0;font-size:14.5px">Ver los {servicios.length} servicios</a></div>
+            <div class="projs">{destacados.map((s) => <ServiceCard s={s} />)}</div>
           </div>
           <div id="lab">
-            <div class="colhead"><h3>FRANCOZ LAB</h3><a class="textlink" href="/lab/" style="margin:0;font-size:14.5px">Entrar al Lab</a></div>
-            <LabLog entradas={lab.slice(0, 3)} siguiente={resumen.siguiente} />
+            <div class="colhead"><h3>FRANCOZ LAB</h3><a class="textlink" href="/lab/" style="margin:0;font-size:14.5px">Investigación aplicada</a></div>
+            <LabLog entradas={lab} />
             <Rules />
           </div>
         </div>
       </div>
     </section>
 
-    <section class="sec" id="notas" aria-labelledby="notas-t">
+    <!-- Enfoque y beneficios -->
+    <section class="sec" id="enfoque" aria-labelledby="enf-t">
+      <div class="wrap">
+        <p class="kicker">Enfoque</p>
+        <h2 class="manifesto" id="enf-t">De la información técnica a las decisiones.</h2>
+        <p class="lead" style="margin-top:28px">Encontrar problemas es solo el comienzo. Ayudamos a convertir información técnica en decisiones de seguridad: el trabajo termina cuando tu organización entiende sus riesgos, sabe qué priorizar y tiene un plan concreto para reducirlos.</p>
+        <div class="about">
+          <div><h3>Reducir la exposición</h3><p>Encontrar los puntos débiles antes de que alguien los aproveche.</p></div>
+          <div><h3>Priorizar con criterio</h3><p>Saber qué requiere atención hoy y qué puede esperar, según el impacto en el negocio.</p></div>
+          <div><h3>Fortalecer los controles</h3><p>Mejorar las medidas que ya existen antes de sumar herramientas nuevas.</p></div>
+          <div><h3>Decidir con información</h3><p>Informes que la dirección entiende y que el equipo técnico puede ejecutar.</p></div>
+          <div><h3>Proteger lo que importa</h3><p>Información, sistemas y continuidad de la operación, en ese orden de prioridad que define tu negocio.</p></div>
+          <div><h3>Mejorar con el tiempo</h3><p>Revisiones periódicas para medir el avance, no una foto aislada.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Método -->
+    <section class="sec" id="metodo" aria-labelledby="metodo-t">
+      <div class="wrap">
+        <div class="split" style="align-items:start">
+          <div>
+            <p class="kicker">Método</p>
+            <h2 class="title" id="metodo-t">Un proceso claro, de principio a fin.</h2>
+            <p class="lead" style="margin-top:28px">Cada trabajo sigue las mismas cinco etapas. Antes de empezar sabés qué se va a hacer, cuándo y qué vas a recibir.</p>
+            <a class="textlink" href={CTA.href}>{CTA.texto} <Fragment set:html={flecha} /></a>
+          </div>
+          <Proceso />
+        </div>
+      </div>
+    </section>
+
+    <!-- Para quién -->
+    <section class="sec" id="para-quien" aria-labelledby="pq2-t">
       <div class="wrap">
         <div class="head-row">
           <div>
-            <p class="kicker">Notas</p>
-            <h2 class="title" id="notas-t">Seguridad explicada, sin humo.</h2>
+            <p class="kicker">Para quién</p>
+            <h2 class="title" id="pq2-t">Para organizaciones que dependen de sus sistemas.</h2>
           </div>
-          <div>
-            <p class="lead" style="max-width:40ch">Conceptos, guías y comparaciones escritas para entender, no para asustar.</p>
-            <a class="textlink" href="/notas/">Leer las notas <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
-          </div>
+          <p class="lead" style="max-width:40ch">Cada trabajo se ajusta al tamaño y a la madurez de la organización.</p>
         </div>
-        <div class="notes">{notas.map((n) => <NoteCard n={n} />)}</div>
+        <div class="notes">
+          <article class="notecard">
+            <span class="area-num"><span>PyMEs</span><span>01</span></span>
+            <h3>PyMEs que quieren saber dónde están paradas.</h3>
+            <p>Sin un área de seguridad propia y con sistemas que crecieron de a poco. Necesitan un diagnóstico claro y un orden de prioridades realista.</p>
+            <a class="soon" href="/servicios/evaluacion-de-ciberseguridad/">Punto de partida: Evaluación de ciberseguridad</a>
+          </article>
+          <article class="notecard">
+            <span class="area-num"><span>Empresas</span><span>02</span></span>
+            <h3>Empresas con infraestructura propia.</h3>
+            <p>Servidores, redes y servicios en la nube que necesitan evaluaciones periódicas, pruebas controladas y controles más sólidos.</p>
+            <a class="soon" href="/servicios/pruebas-de-penetracion/">Frecuente: análisis de vulnerabilidades y pentesting</a>
+          </article>
+          <article class="notecard">
+            <span class="area-num"><span>Profesionales e instituciones</span><span>03</span></span>
+            <h3>Organizaciones que manejan información sensible.</h3>
+            <p>Personas y entidades que necesitan proteger datos propios y de terceros, cumplir con sus obligaciones y cuidar su reputación.</p>
+            <a class="soon" href="/servicios/gestion-de-riesgos/">Frecuente: gestión de riesgos y concientización</a>
+          </article>
+        </div>
       </div>
     </section>
+
+    {insights.length > 0 && (
+      <section class="sec" id="insights" aria-labelledby="ins-t">
+        <div class="wrap">
+          <div class="head-row">
+            <div>
+              <p class="kicker">Insights</p>
+              <h2 class="title" id="ins-t">Seguridad explicada para tomar mejores decisiones.</h2>
+            </div>
+            <div>
+              <p class="lead" style="max-width:40ch">Amenazas, buenas prácticas y gestión del riesgo, escritas para entenderse sin ser especialista.</p>
+              <a class="textlink" href="/insights/">Ver todos los insights <Fragment set:html={flecha} /></a>
+            </div>
+          </div>
+          <div class="notes">{insights.map((n) => <NoteCard n={n} />)}</div>
+        </div>
+      </section>
+    )}
 
     <section class="sec" id="contacto" aria-labelledby="contacto-t">
       <div class="wrap"><Contact /></div>
     </section>
   </main>
 </Base>
+
+<style>
+  .about h3{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0 0 12px}
+  .notecard a.soon{text-decoration:none}
+  .notecard a.soon:hover{color:var(--accent)}
+</style>

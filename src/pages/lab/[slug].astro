@@ -35,7 +35,6 @@ const enlace = (e: typeof entry | null) =>
   migas={[{ label: 'Inicio', href: '/' }, { label: 'Lab', href: '/lab/' }, { label: numeroLab(d.numero) }]}
   chips={[
     ...(d.fecha ? [{ texto: fechaLarga(d.fecha) }] : []),
-    ...(d.tiempo ? [{ texto: `Tiempo: ${d.tiempo}` }] : []),
     ...(d.serie ? [{ texto: `Serie: ${d.serie}` }] : []),
   ]}
   anterior={enlace(anterior)}
@@ -48,7 +47,7 @@ const enlace = (e: typeof entry | null) =>
     <div class="side-box glass">
       <h2>Ficha</h2>
       <dl>
-        <div><dt>Área</dt><dd><a href={`/areas/${area.slug}/`}>{area.nombre}</a></dd></div>
+        <div><dt>Área</dt><dd><a href={`/servicios/#${area.slug}`}>{area.nombre}</a></dd></div>
         <div><dt>Tipo</dt><dd>{d.tipo}</dd></div>
         {d.tecnologias.length > 0 && <div><dt>Tecnologías</dt><dd>{d.tecnologias.join(' · ')}</dd></div>}
         {d.revision && <div><dt>Última revisión</dt><dd>{fechaLarga(d.revision)}</dd></div>}
@@ -57,8 +56,8 @@ const enlace = (e: typeof entry | null) =>
     </div>
     {notasRelacionadas.length > 0 && (
       <div class="side-box glass">
-        <h2>Para entender el concepto</h2>
-        <ul>{notasRelacionadas.map((n) => <li><a href={`/notas/${n.id}/`}>{n.data.titulo}</a></li>)}</ul>
+        <h2>Insights relacionados</h2>
+        <ul>{notasRelacionadas.map((n) => <li><a href={`/insights/${n.id}/`}>{n.data.titulo}</a></li>)}</ul>
       </div>
     )}
   </Fragment>

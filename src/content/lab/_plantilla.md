@@ -3,13 +3,12 @@
 # Para crear una entrada nueva: copiá este archivo, cambiale el nombre
 # (por ejemplo 002-hardening-debian.md) y completá los datos.
 numero: 2
-titulo: "Título descriptivo de la práctica"
+titulo: "Título descriptivo de la investigación"
 descripcion: "Una o dos oraciones: qué se hizo y para qué. Máximo 170 caracteres."
-area: defensa            # defensa | riesgo | inteligencia | automatizacion
-tipo: Práctica           # Montaje | Práctica | Análisis | Herramienta | Write-up
+area: proteccion         # evaluacion | proteccion | riesgo-inteligencia | personas-respuesta
+tipo: Investigación      # Entorno | Análisis | Investigación | Herramienta | Write-up
 tecnologias: ["Debian", "VirtualBox"]
 # serie: "Active Directory"      # opcional
-# tiempo: "4 horas"              # opcional
 # repositorio: "https://github.com/..."   # opcional
 estado: en-preparacion   # cambiá a "publicada" cuando esté lista
 fecha: 2026-10-08        # fecha de publicación (AAAA-MM-DD)

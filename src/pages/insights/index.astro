@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import NoteCard from '../../components/NoteCard.astro';
+import { insightsPublicados } from '../../data/contenido';
+import { AREAS } from '../../data/areas';
+
+const notas = await insightsPublicados();
+const porArea = AREAS.map((a) => ({ area: a, notas: notas.filter((n) => n.data.area === a.slug) })).filter((g) => g.notas.length);
+---
+<Base title="Insights de ciberseguridad" description="Insights de FRANCOZ SECURITY: amenazas, buenas prácticas, gestión de riesgos y seguridad empresarial explicadas con claridad.">
+  <main id="contenido">
+    <PageHead
+      kicker="Insights"
+      titulo="Seguridad explicada para tomar mejores decisiones."
+      lead="Amenazas, buenas prácticas y gestión del riesgo, escritas para que se entiendan sin ser especialista."
+      migas={[{ label: 'Inicio', href: '/' }, { label: 'Insights' }]}
+    />
+    <section class="sec">
+      <div class="wrap">
+        {porArea.length === 0 && <p class="empty">Los primeros artículos se publican pronto. Mientras tanto, podés conocer los <a href="/servicios/">servicios</a>.</p>}
+        {porArea.map((g, i) => (
+          <div class={i > 0 ? 'block' : undefined}>
+            <div class="colhead">
+              <h2 style="font-size:22px;font-weight:470;margin:0">{g.area.nombre}</h2>
+              <a class="textlink" href={`/servicios/#${g.area.slug}`} style="margin:0;font-size:14.5px">Servicios del área</a>
+            </div>
+            <div class="notes" style="margin-top:28px">{g.notas.map((n) => <NoteCard n={n} />)}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+</Base>

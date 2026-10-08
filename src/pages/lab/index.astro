@@ -3,35 +3,42 @@ import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import LabLog from '../../components/LabLog.astro';
 import Rules from '../../components/Rules.astro';
-import { todoElLab, resumenLab } from '../../data/contenido';
+import { labPublicado } from '../../data/contenido';
 
-const lab = await todoElLab();
-const { siguiente } = await resumenLab();
+const lab = await labPublicado();
 ---
-<Base title="FRANCOZ LAB" description="La bitácora técnica de FRANCOZ SECURITY: cada práctica numerada, con objetivo, entorno, proceso, resultado, errores y aprendizajes.">
+<Base title="FRANCOZ LAB" description="FRANCOZ LAB: investigación aplicada en ciberseguridad. Análisis de técnicas, configuraciones y amenazas en entornos controlados.">
   <main id="contenido">
     <PageHead
       kicker="FRANCOZ LAB"
-      titulo="La bitácora técnica."
-      lead="Cada práctica tiene número, fecha y el mismo formato: objetivo, entorno, proceso, resultado y aprendizajes. Errores incluidos."
+      titulo="Investigación aplicada en seguridad."
+      lead="El laboratorio de investigación de FRANCOZ SECURITY: análisis de técnicas, configuraciones y amenazas en entornos controlados. Lo que se aprende acá alimenta cada evaluación."
       migas={[{ label: 'Inicio', href: '/' }, { label: 'Lab' }]}
     />
     <section class="sec">
       <div class="wrap">
         <div class="ev" style="margin-top:0">
           <div>
-            <div class="colhead"><h2 style="font-size:22px;font-weight:470;margin:0">Entradas</h2><p>Numeradas en orden de publicación</p></div>
-            <LabLog entradas={lab} siguiente={siguiente} formato={false} />
+            <div class="colhead"><h2 style="font-size:22px;font-weight:470;margin:0">Publicaciones</h2><p>Numeradas en orden de publicación</p></div>
+            <LabLog entradas={lab} formato={false} />
           </div>
           <div>
             <div class="colhead"><h2 style="font-size:22px;font-weight:470;margin:0">Cómo se documenta</h2></div>
             <div class="log glass" style="padding-top:20px">
               <div class="fmt" style="margin-top:0">
-                <h4>Formato de cada entrada</h4>
-                <ol><li>Objetivo</li><li>Entorno</li><li>Proceso</li><li>Resultado</li><li>Qué salió mal</li><li>Aprendizajes</li></ol>
+                <h4>Formato de cada publicación</h4>
+                <ol><li>Objetivo</li><li>Entorno</li><li>Proceso</li><li>Resultado</li><li>Limitaciones</li><li>Conclusiones</li></ol>
               </div>
             </div>
-            <Rules />
+            <Rules
+              titulo="Investigación responsable"
+              reglas={[
+                'Solo entornos propios, aislados o con autorización escrita.',
+                'Casos ficticios para OSINT y análisis de riesgo.',
+                'Ningún dato de clientes ni de terceros se publica.',
+                'Write-ups solo de retos retirados o de publicación permitida.',
+              ]}
+            />
           </div>
         </div>
       </div>

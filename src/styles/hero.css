@@ -85,12 +85,12 @@
 .n-div{width:calc(1.5*var(--u));height:calc(31*var(--u));background:#CED5E0;border:0;margin:0;flex:none}
 
 /* CTA principal */
-.cta{width:calc(217*var(--u));height:calc(70*var(--u));border-radius:999px;background:var(--cta);text-decoration:none;display:block;
+.cta{width:calc(272*var(--u));height:calc(70*var(--u));border-radius:999px;background:var(--cta);text-decoration:none;display:block;
   box-shadow:0 calc(10*var(--u)) calc(24*var(--u)) rgba(11,26,50,.18)}
 .cta span{position:absolute;left:calc(34.8*var(--u));top:calc(27.55*var(--u));font-size:calc(17.5*var(--u));font-weight:400;
   letter-spacing:-0.03em;line-height:1;color:#fff;white-space:nowrap}
 .knob{position:absolute;border-radius:50%;background:var(--cta-knob);display:flex;align-items:center;justify-content:center}
-.cta .knob{left:calc(156*var(--u));top:calc(10.5*var(--u));width:calc(49*var(--u));height:calc(49*var(--u))}
+.cta .knob{left:calc(211*var(--u));top:calc(10.5*var(--u));width:calc(49*var(--u));height:calc(49*var(--u))}
 .knob svg{width:calc(17*var(--u));height:calc(17*var(--u))}
 
 /* tipografía del hero */
@@ -110,7 +110,7 @@
     0 calc(18*var(--u)) calc(40*var(--u)) rgba(28,52,92,.07)}
 .panel>*{position:absolute;margin:0}
 .p-title{left:calc(29*var(--u));top:calc(44.7*var(--u));font-size:calc(24*var(--u));font-weight:500;letter-spacing:-0.02em;line-height:1;color:var(--ink);white-space:nowrap}
-.dot{left:calc(137*var(--u));top:calc(53*var(--u));width:calc(10*var(--u));height:calc(10*var(--u));border-radius:50%;background:var(--accent)}
+.dot{left:calc(160*var(--u));top:calc(53*var(--u));width:calc(10*var(--u));height:calc(10*var(--u));border-radius:50%;background:var(--accent)}
 .lens{left:calc(177*var(--u));top:calc(46*var(--u));width:calc(73*var(--u));height:calc(73*var(--u));border-radius:50%;background:rgba(255,255,255,.92);
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 0 calc(26*var(--u)) calc(10*var(--u)) rgba(255,255,255,.5),0 calc(6*var(--u)) calc(16*var(--u)) rgba(28,52,92,.06)}
@@ -120,7 +120,7 @@
   font-size:calc(15*var(--u));font-weight:400;letter-spacing:-0.03em;line-height:1;color:#586580;font-variant-numeric:tabular-nums}
 .scale span:first-child{color:var(--ink);font-weight:500}
 .track{left:calc(46*var(--u));top:calc(221*var(--u));width:calc(190*var(--u));height:calc(8*var(--u));border-radius:999px;background:var(--track);overflow:hidden}
-.track i{display:block;width:calc(34*var(--u));height:100%;border-radius:999px;background:#5F88B4;transform-origin:left center}
+.track i{display:block;width:calc(26*var(--u));height:100%;border-radius:999px;background:#5F88B4;transform-origin:left center}
 
 /* cifras */
 .num{font-size:calc(100*var(--u));font-weight:200;letter-spacing:0em;line-height:1;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -216,13 +216,13 @@
     .play svg{width:calc(13*var(--t));height:calc(15*var(--t))}
     .panel{width:100%;align-self:stretch;height:calc(212*var(--t));margin-top:calc(24*var(--u))}
     .p-title{left:calc(30*var(--t));top:calc(30*var(--t));font-size:calc(24*var(--t))}
-    .dot{left:calc(137*var(--t));top:calc(40*var(--t));width:calc(10*var(--t));height:calc(10*var(--t))}
+    .dot{left:calc(162*var(--t));top:calc(40*var(--t));width:calc(10*var(--t));height:calc(10*var(--t))}
     .lens{left:auto;right:calc(26*var(--t));top:calc(22*var(--t));width:calc(64*var(--t));height:calc(64*var(--t))}
     .lens svg{width:calc(32*var(--t));height:calc(32*var(--t))}
     .p-sub{left:calc(31*var(--t));top:calc(76*var(--t));font-size:calc(17*var(--t));line-height:calc(21*var(--t))}
     .scale{left:calc(31*var(--t));top:calc(156*var(--t));width:calc(100% - 62*var(--t));font-size:calc(14*var(--t))}
     .track{left:calc(31*var(--t));top:calc(182*var(--t));width:calc(100% - 62*var(--t));height:calc(8*var(--t))}
-    .track i{width:18%}
+    .track i{width:12%}
     .stats{gap:calc(18*var(--u));align-items:center;flex-wrap:nowrap}
     .stat{flex-direction:column;align-items:flex-start;gap:calc(6*var(--t))}
     .num{font-size:calc(76*var(--u))}

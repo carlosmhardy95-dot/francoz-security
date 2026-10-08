@@ -1,0 +1,25 @@
+---
+// Tarjeta de servicio. Usa el mismo diseño que las antiguas tarjetas de proyecto.
+import type { CollectionEntry } from 'astro:content';
+import { areaPorSlug } from '../data/areas';
+interface Props { s: CollectionEntry<'servicios'> }
+const { s } = Astro.props;
+const d = s.data;
+---
+<a class="proj glass" href={`/servicios/${s.id}/`}>
+  <div class="proj-top"><span class="code">{d.codigo}</span><span class="chip">{areaPorSlug(d.area).nombre}</span></div>
+  <h4>{d.nombre}</h4>
+  <p>{d.definicion}</p>
+  <dl class="pb">
+    <div><dt>Problema</dt><dd>{d.problema}</dd></div>
+    <div><dt>Resultado</dt><dd>{d.beneficio}</dd></div>
+  </dl>
+  <div class="proj-foot"><span>{d.termino ?? ''}</span><span>Conocer el servicio →</span></div>
+</a>
+
+<style>
+  .pb{margin:2px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding-top:12px;border-top:1px solid var(--line-soft)}
+  .pb dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .pb dd{margin:4px 0 0;font-size:14.5px;line-height:1.45;color:var(--ink-soft)}
+  @media (max-width:560px){.pb{grid-template-columns:minmax(0,1fr)}}
+</style>

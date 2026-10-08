@@ -1,0 +1,22 @@
+---
+// Método de trabajo: las mismas cinco etapas en cada proyecto.
+// Usa el mismo diseño que la antigua hoja de ruta.
+const etapas = [
+  { n: '01', nombre: 'Alcance y autorización', texto: 'Entendemos tu contexto, tus objetivos y tus activos críticos. Definimos por escrito qué se evalúa, cómo y cuándo.' },
+  { n: '02', nombre: 'Evaluación', texto: 'Relevamos exposición, configuraciones, vulnerabilidades y controles, con técnicas acordadas y en horarios que cuidan la operación.' },
+  { n: '03', nombre: 'Priorización', texto: 'Clasificamos cada hallazgo según su impacto en el negocio y la probabilidad de que ocurra.' },
+  { n: '04', nombre: 'Informe y plan de acción', texto: 'Un resumen ejecutivo para la dirección y un detalle técnico para el equipo, con acciones ordenadas por prioridad.' },
+  { n: '05', nombre: 'Acompañamiento', texto: 'Apoyo en la implementación de las mejoras y verificación de que las correcciones funcionen.' },
+];
+---
+<ol class="road" aria-label="Método de trabajo">
+  {etapas.map((e, i) => (
+    <li class={i === 0 ? 'now' : undefined}>
+      <span class="n">{e.n}</span>
+      <div class="body">
+        <h3>{e.nombre} {i === 0 && <span class="chip live">Punto de partida</span>}</h3>
+        <p>{e.texto}</p>
+      </div>
+    </li>
+  ))}
+</ol>

@@ -14,7 +14,7 @@ interface Props {
   type?: 'website' | 'article';
 }
 const { title, description = SITE.descripcion, jsonld, home = false, type = 'website' } = Astro.props;
-const fullTitle = title ? `${title} · ${SITE.nombre}` : `${SITE.nombre} — ${SITE.lema}`;
+const fullTitle = title ? `${title} · ${SITE.nombre}` : `${SITE.nombre} — ${SITE.tituloInicio}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const favicon = `data:image/svg+xml,${encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18.4" fill="#E6EDF6" stroke="#0d1b30" stroke-width="2"/><path d="M3.4 27.4 36.6 12.6" stroke="#0d1b30" stroke-width="2.4" stroke-linecap="round"/><circle cx="14.4" cy="14.2" r="3.2" fill="#0d1b30"/></svg>'

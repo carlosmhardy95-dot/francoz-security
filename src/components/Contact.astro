@@ -1,39 +1,124 @@
 ---
+// Contacto: formulario de solicitud de evaluación. Mismo panel de vidrio que antes.
 import { SITE } from '../data/site';
+import { todosLosServicios } from '../data/contenido';
 interface Props { titulo?: 'h1' | 'h2' }
 const { titulo = 'h2' } = Astro.props;
 const H = titulo;
+const servicios = await todosLosServicios();
 ---
 <div class="contact glass">
   <div class="orb" aria-hidden="true"></div>
   <p class="kicker">Contacto</p>
-  <H class="title" id="contacto-t">Si te interesa el antes, hablemos.</H>
-  <p class="lead" style="margin-top:24px">FRANCOZ no ofrece servicios todavía. Sí está abierto a conversar sobre colaboraciones, laboratorios, temas para investigar y oportunidades futuras.</p>
+  <H class="title" id="contacto-t">Contanos qué necesitás proteger.</H>
+  <p class="lead" style="margin-top:24px">Completá el formulario y te respondemos por correo para coordinar una primera conversación. Toda la información que compartas se trata de forma confidencial.</p>
   <div class="reasons">
-    <span class="chip">Colaboraciones</span><span class="chip">Revisión de laboratorios</span><span class="chip">Temas para investigar</span><span class="chip">Comunidad</span><span class="chip">Oportunidades futuras</span>
+    <span class="chip">Respuesta por correo</span><span class="chip">Información confidencial</span><span class="chip">Alcance definido por escrito</span>
   </div>
-  <div class="mailrow">
-    <a class="mail" id="mail" href={`mailto:${SITE.correo}`}>{SITE.correo}</a>
-    <button class="btn" type="button" id="copy">
-      <span id="copy-label">Copiar correo</span>
-      <i><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2" stroke="#fff" stroke-width="1.5" /><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="#fff" stroke-width="1.5" /></svg></i>
-    </button>
-  </div>
-  <p class="micro">Respuesta por correo. Sin listas de difusión.</p>
+
+  <form class="cform" id="cform" novalidate data-endpoint={SITE.formulario} data-correo={SITE.correo}>
+    <div class="f">
+      <label for="c-nombre">Nombre y apellido</label>
+      <input id="c-nombre" name="nombre" type="text" autocomplete="name" required />
+    </div>
+    <div class="f">
+      <label for="c-empresa">Empresa u organización <span>(opcional)</span></label>
+      <input id="c-empresa" name="empresa" type="text" autocomplete="organization" />
+    </div>
+    <div class="f">
+      <label for="c-email">Correo electrónico</label>
+      <input id="c-email" name="email" type="email" autocomplete="email" required />
+    </div>
+    <div class="f">
+      <label for="c-tel">Teléfono <span>(opcional)</span></label>
+      <input id="c-tel" name="telefono" type="tel" autocomplete="tel" />
+    </div>
+    <div class="f full">
+      <label for="c-servicio">Servicio de interés</label>
+      <select id="c-servicio" name="servicio">
+        <option value="Evaluación general (no sé por dónde empezar)">No estoy seguro: quiero una evaluación general</option>
+        {servicios.map((s) => <option value={s.data.nombre} data-slug={s.id}>{s.data.nombre}</option>)}
+      </select>
+    </div>
+    <div class="f full">
+      <label for="c-msg">Contanos brevemente tu situación</label>
+      <textarea id="c-msg" name="mensaje" rows="4" required placeholder="Qué sistemas usan, qué les preocupa o qué necesitan resolver."></textarea>
+    </div>
+    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" />
+    <div class="f full send">
+      <button class="btn" type="submit">
+        <span>Solicitar evaluación</span>
+        <i><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="m6.6 3.6 6 5.4-6 5.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></svg></i>
+      </button>
+      <p class="fmsg" id="fmsg" role="status" aria-live="polite"></p>
+    </div>
+  </form>
+
+  <p class="micro">También podés escribir directamente a <a class="mail-inline" href={`mailto:${SITE.correo}`}>{SITE.correo}</a>.</p>
 </div>
 
+<style>
+  .cform{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 18px;margin-top:34px;max-width:860px}
+  .f{display:grid;gap:7px;min-width:0}
+  .f.full{grid-column:1 / -1}
+  .f label{font-size:14px;font-weight:500;color:var(--ink-soft)}
+  .f label span{font-weight:400;color:var(--muted)}
+  .f input,.f select,.f textarea{font:inherit;font-size:16px;color:var(--ink);width:100%;padding:13px 16px;border-radius:14px;
+    border:1px solid var(--line);background:rgba(255,255,255,.72);transition:border-color .2s,box-shadow .2s}
+  .f textarea{resize:vertical;min-height:110px}
+  .f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(74,120,176,.16)}
+  .f [aria-invalid="true"]{border-color:#B4505A}
+  .send{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin-top:6px}
+  .fmsg{font-size:14.5px;color:var(--muted2)}
+  .fmsg.ok{color:var(--ink)}
+  .fmsg.err{color:#9A3C46}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .mail-inline{color:var(--ink);text-underline-offset:3px}
+  @media (max-width:640px){.cform{grid-template-columns:minmax(0,1fr)}}
+</style>
+
 <script>
-  const b = document.getElementById('copy');
-  const m = document.getElementById('mail');
-  const l = document.getElementById('copy-label');
-  if (b && m && l) {
-    b.addEventListener('click', () => {
-      const done = (t: string) => { l.textContent = t; setTimeout(() => (l.textContent = 'Copiar correo'), 2200); };
-      const select = () => {
-        const r = document.createRange(); r.selectNodeContents(m);
-        const s = getSelection(); s?.removeAllRanges(); s?.addRange(r); done('Seleccionado: copialo');
-      };
-      try { navigator.clipboard.writeText(m.textContent!.trim()).then(() => done('Copiado'), select); } catch { select(); }
+  const form = document.getElementById('cform') as HTMLFormElement | null;
+  const msg = document.getElementById('fmsg');
+  if (form && msg) {
+    // Si se llega desde la página de un servicio (?servicio=...), dejarlo elegido
+    const pedido = new URLSearchParams(location.search).get('servicio');
+    if (pedido) {
+      const opt = form.querySelector<HTMLOptionElement>(`option[data-slug="${CSS.escape(pedido)}"]`);
+      if (opt) opt.selected = true;
+    }
+    const decir = (t: string, tipo: '' | 'ok' | 'err' = '') => { msg.textContent = t; msg.className = `fmsg ${tipo}`; };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      let primero: HTMLElement | null = null;
+      form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]').forEach((el) => {
+        const mal = !el.value.trim() || (el.type === 'email' && !/^\S+@\S+\.\S+$/.test(el.value));
+        el.setAttribute('aria-invalid', String(mal));
+        if (mal && !primero) primero = el;
+      });
+      if (primero) { (primero as HTMLElement).focus(); decir('Revisá los campos marcados: nombre, correo y mensaje son necesarios.', 'err'); return; }
+
+      const datos = new FormData(form);
+      const endpoint = form.dataset.endpoint;
+      const boton = form.querySelector('button')!;
+      if (endpoint) {
+        boton.disabled = true; decir('Enviando…');
+        try {
+          const r = await fetch(endpoint, { method: 'POST', body: datos, headers: { Accept: 'application/json' } });
+          if (!r.ok) throw new Error(String(r.status));
+          form.reset();
+          decir('Recibimos tu solicitud. Te vamos a responder por correo.', 'ok');
+        } catch {
+          decir(`No se pudo enviar. Escribinos directamente a ${form.dataset.correo}.`, 'err');
+        } finally { boton.disabled = false; }
+      } else {
+        // Sin servicio de formularios configurado: se arma un correo con los datos
+        const cuerpo = ['nombre', 'empresa', 'email', 'telefono', 'servicio', 'mensaje']
+          .map((k) => `${k[0].toUpperCase() + k.slice(1)}: ${datos.get(k) || '-'}`).join('\n');
+        location.href = `mailto:${form.dataset.correo}?subject=${encodeURIComponent('Solicitud de evaluación')}&body=${encodeURIComponent(cuerpo)}`;
+        decir('Se abrió tu programa de correo con los datos cargados. Revisalo y envialo.', 'ok');
+      }
     });
   }
 </script>

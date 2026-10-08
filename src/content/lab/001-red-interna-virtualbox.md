@@ -1,16 +1,16 @@
 ---
 numero: 1
-titulo: "Red interna aislada en VirtualBox"
-descripcion: "Una red aislada con Debian y Windows para practicar sin tocar la red de la casa: la base de todos los laboratorios que vienen."
-area: defensa
-tipo: Montaje
+titulo: "Entorno de pruebas aislado"
+descripcion: "La red aislada sobre la que se ejecutan las pruebas del laboratorio, sin contacto con redes productivas."
+area: proteccion
+tipo: Entorno
 tecnologias: ["VirtualBox", "Debian", "Windows", "TCP/IP"]
 estado: en-preparacion
 ---
 
 ## Objetivo
 
-Crear una red aislada con Debian y Windows en VirtualBox, sin salida a la red de la casa, para usarla como base de los próximos laboratorios.
+Montar una red aislada con equipos Linux y Windows, sin contacto con redes productivas, que sirva de base para las investigaciones del laboratorio.
 
 ## Entorno
 

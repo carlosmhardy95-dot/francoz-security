@@ -9,5 +9,10 @@ const SITE_URL = process.env.SITE_URL || 'https://francoz-security.vercel.app';
 export default defineConfig({
   site: SITE_URL,
   trailingSlash: 'always',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // las direcciones viejas que solo redirigen no van al mapa del sitio
+      filter: (page) => !/\/(areas|proyectos|notas|sobre|uso-responsable)\//.test(page),
+    }),
+  ],
 });

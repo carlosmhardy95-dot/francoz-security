@@ -1,66 +1,49 @@
-export type AreaSlug = 'defensa' | 'riesgo' | 'inteligencia' | 'automatizacion';
+// Las 4 áreas de seguridad que agrupan los servicios.
+// Siguen la lógica del marco NIST CSF 2.0: identificar, proteger, gobernar el riesgo, responder.
+
+export type AreaSlug = 'evaluacion' | 'proteccion' | 'riesgo-inteligencia' | 'personas-respuesta';
 
 export interface Area {
   slug: AreaSlug;
   numero: string;
   nombre: string;
   sub: string;
-  tipo: 'Dominio' | 'Transversal';
+  tipo: 'Área' | 'Transversal';
   enfoque: string;
-  descripcion: string;
-  temas: string[];
-  // Se muestra recién en la Etapa 03. Mientras sea null, no aparece en ningún lado.
-  servicioFuturo: null | { nombre: string; descripcion: string };
 }
 
 export const AREAS: Area[] = [
   {
-    slug: 'defensa',
+    slug: 'evaluacion',
     numero: '01',
-    nombre: 'Defensa',
-    sub: 'Seguridad defensiva',
-    tipo: 'Dominio',
-    enfoque: 'Cómo se protege un sistema desde adentro.',
-    descripcion:
-      'Redes, sistemas y configuraciones vistos desde el lado de quien tiene que protegerlos. El trabajo de esta área se hace en laboratorios propios y aislados.',
-    temas: ['Seguridad de redes', 'Hardening', 'Gestión de vulnerabilidades', 'Monitoreo y SOC', 'Active Directory'],
-    servicioFuturo: null,
+    nombre: 'Evaluación',
+    sub: 'Identificar',
+    tipo: 'Área',
+    enfoque: 'Saber dónde está expuesta tu organización y qué tan grave es.',
   },
   {
-    slug: 'riesgo',
+    slug: 'proteccion',
     numero: '02',
-    nombre: 'Riesgo',
-    sub: 'Gestión de riesgos',
-    tipo: 'Dominio',
-    enfoque: 'Qué puede salir mal, cuánto importa y qué hacer antes.',
-    descripcion:
-      'Identificar activos, amenazas y vulnerabilidades, medir el impacto y elegir controles con criterio. Los casos de estudio usan organizaciones ficticias.',
-    temas: ['Inventario de activos', 'Amenazas', 'Evaluación de riesgos', 'Controles', 'ISO/IEC 27001 · 27005', 'NIST CSF'],
-    servicioFuturo: null,
+    nombre: 'Protección',
+    sub: 'Fortalecer',
+    tipo: 'Área',
+    enfoque: 'Reforzar lo que ya tenés: sistemas, redes, equipos y nube.',
   },
   {
-    slug: 'inteligencia',
+    slug: 'riesgo-inteligencia',
     numero: '03',
-    nombre: 'Inteligencia',
-    sub: 'Fuentes abiertas',
-    tipo: 'Dominio',
-    enfoque: 'Información abierta convertida en criterio.',
-    descripcion:
-      'Cómo se busca, se verifica y se analiza información pública para tomar decisiones de seguridad. Solo sobre casos ficticios y con reglas éticas explícitas.',
-    temas: ['OSINT', 'Threat intelligence', 'Análisis de fuentes', 'Casos ficticios'],
-    servicioFuturo: null,
+    nombre: 'Riesgo e inteligencia',
+    sub: 'Decidir',
+    tipo: 'Área',
+    enfoque: 'Entender qué importa más y qué se sabe de tu organización desde afuera.',
   },
   {
-    slug: 'automatizacion',
+    slug: 'personas-respuesta',
     numero: '04',
-    nombre: 'Automatización',
-    sub: 'Transversal',
+    nombre: 'Personas y respuesta',
+    sub: 'Responder',
     tipo: 'Transversal',
-    enfoque: 'Herramientas para que el método escale en las otras tres áreas.',
-    descripcion:
-      'Scripts, sistemas Linux y uso aplicado de IA para repetir, medir y documentar el trabajo de las otras áreas con menos esfuerzo manual.',
-    temas: ['Python', 'Linux', 'Scripting', 'IA aplicada a seguridad'],
-    servicioFuturo: null,
+    enfoque: 'Preparar al equipo y actuar con orden cuando algo pasa.',
   },
 ];
 

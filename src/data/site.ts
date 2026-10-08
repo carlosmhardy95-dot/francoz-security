@@ -1,32 +1,29 @@
 // Datos generales del sitio. Este es el único lugar donde hay que cambiar
-// el correo, la etapa o el lema: se actualiza en todas las páginas.
+// el correo, el formulario o el lema: se actualiza en todas las páginas.
 
 export const SITE = {
   nombre: 'FRANCOZ SECURITY',
-  lema: 'La seguridad empieza antes.',
+  lema: 'La seguridad se decide antes.',
+  tituloInicio: 'Ciberseguridad para empresas y PyMEs',
   descripcion:
-    'FRANCOZ SECURITY estudia el antes: el análisis, el método y la práctica que deciden si un incidente ocurre. Ciberseguridad, riesgo e inteligencia, construido a la vista.',
+    'Servicios de ciberseguridad para empresas y PyMEs: evaluación de seguridad, análisis de vulnerabilidades, pentesting, gestión de riesgos y hardening.',
   // ⚠️ Reemplazá por el correo real antes de publicar
   correo: 'contacto@[tu-dominio]',
-  etapa: { numero: '01', nombre: 'Fundamentos' },
+  // Dirección del formulario (Formspree u otro servicio). Mientras esté vacía,
+  // el formulario arma un correo con los datos y lo abre en el programa de correo del visitante.
+  formulario: '',
   anio: new Date().getFullYear(),
 };
 
 export const NAV = [
-  { href: '/areas/', label: 'Áreas' },
-  { href: '/proyectos/', label: 'Proyectos' },
+  { href: '/servicios/', label: 'Servicios' },
+  { href: '/#metodo', label: 'Método' },
   { href: '/lab/', label: 'Lab' },
-  { href: '/notas/', label: 'Notas' },
-  { href: '/sobre/', label: 'Sobre' },
+  { href: '/insights/', label: 'Insights' },
+  { href: '/nosotros/', label: 'Nosotros' },
 ];
 
-export const ESTADOS: Record<string, { texto: string; vivo: boolean }> = {
-  publicada: { texto: 'Publicada', vivo: false },
-  publicado: { texto: 'Publicado', vivo: false },
-  'en-curso': { texto: 'En curso', vivo: true },
-  'en-preparacion': { texto: 'En preparación', vivo: true },
-  proximo: { texto: 'Próximo', vivo: false },
-};
+export const CTA = { texto: 'Solicitar evaluación', href: '/contacto/' };
 
 export const numeroLab = (n: number) => `#${String(n).padStart(3, '0')}`;
 

@@ -1,16 +1,4 @@
 ---
-import Base from '../../layouts/Base.astro';
-import PageHead from '../../components/PageHead.astro';
-import AreaCards from '../../components/AreaCards.astro';
+// Dirección vieja: redirige a la nueva. (Se mantiene para que los enlaces antiguos sigan funcionando.)
+return Astro.redirect('/servicios/');
 ---
-<Base title="Áreas de conocimiento" description="Las cuatro áreas que FRANCOZ SECURITY estudia y documenta: Defensa, Riesgo, Inteligencia y Automatización.">
-  <main id="contenido">
-    <PageHead
-      kicker="Áreas de conocimiento"
-      titulo="Cuatro áreas, un mismo método."
-      lead="Áreas de estudio y práctica. No son servicios disponibles: son el mapa de lo que FRANCOZ investiga y documenta. Cada nota, laboratorio y proyecto pertenece a una de ellas."
-      migas={[{ label: 'Inicio', href: '/' }, { label: 'Áreas' }]}
-    />
-    <section class="sec"><div class="wrap"><AreaCards /></div></section>
-  </main>
-</Base>

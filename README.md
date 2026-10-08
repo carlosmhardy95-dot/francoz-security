@@ -1,7 +1,7 @@
 # FRANCOZ SECURITY — sitio web
 
-Sitio hecho con **Astro**. Astro arma páginas a partir de archivos de texto (Markdown):
-para publicar una nota o un laboratorio no hace falta tocar código, solo agregar un archivo.
+Sitio hecho con **Astro**. Las páginas se arman a partir de archivos de texto (Markdown):
+para agregar o cambiar un servicio, un artículo o una publicación del Lab no hace falta tocar código.
 
 ---
 
@@ -9,11 +9,11 @@ para publicar una nota o un laboratorio no hace falta tocar código, solo agrega
 
 | Quiero cambiar… | Archivo |
 | --- | --- |
-| El correo, el lema o la etapa actual | `src/data/site.ts` |
-| Las 4 áreas (textos y temas) | `src/data/areas.ts` |
-| Las notas | `src/content/notas/` |
-| Las entradas del LAB | `src/content/lab/` |
-| Los proyectos | `src/content/proyectos/` |
+| El correo, el lema o el formulario de contacto | `src/data/site.ts` |
+| Las 4 áreas de seguridad | `src/data/areas.ts` |
+| Los servicios (textos, qué incluye, cuáles se destacan) | `src/content/servicios/` |
+| Los artículos de Insights | `src/content/notas/` |
+| Las publicaciones de FRANCOZ LAB | `src/content/lab/` |
 | La dirección del sitio (dominio) | `astro.config.mjs` |
 | Los textos fijos de la Home | `src/pages/index.astro` |
 
@@ -21,45 +21,55 @@ Los archivos que empiezan con `_` (por ejemplo `_plantilla.md`) son plantillas: 
 
 ---
 
-## Cómo agregar una nota, un laboratorio o un proyecto
+## Servicios
 
-1. Entrá a la carpeta que corresponde (`src/content/notas/`, `src/content/lab/` o `src/content/proyectos/`).
-2. Copiá el archivo `_plantilla.md` y cambiale el nombre. El nombre es la dirección de la página:
-   `que-es-osint.md` se publica en `/notas/que-es-osint/`. Usá minúsculas, sin tildes y con guiones.
-3. Completá los datos de arriba (entre las dos líneas `---`) y escribí el texto abajo.
-4. Mientras no esté terminado, dejá `estado: en-preparacion`. Aparece en las listas como «En preparación», pero sin página propia.
-5. Cuando esté listo, cambiá a `estado: publicada` (en proyectos: `en-curso` o `publicado`) y poné la `fecha`.
-6. Guardá y subí el cambio (ver «Publicar cambios»). Vercel actualiza el sitio solo.
+Cada servicio es un archivo en `src/content/servicios/`. El nombre del archivo es la dirección:
+`hardening.md` se publica en `/servicios/hardening/`.
 
-**Imágenes:** creá la carpeta `public/img/`, poné ahí la captura (por ejemplo `lab-001-red.png`) y en el texto escribí:
-`![Descripción de la captura](/img/lab-001-red.png)`
+- `destacado: true` hace que aparezca en la página de inicio. Conviene que sean 4.
+- `orden` define la posición en las listas.
+- `area` tiene que ser una de: `evaluacion`, `proteccion`, `riesgo-inteligencia`, `personas-respuesta`.
 
-**Errores:** si un dato está mal (por ejemplo, una descripción de más de 170 caracteres o un área que no existe), el sitio no se publica y Vercel muestra el motivo en español. Corregilo y volvé a subir.
+Para sumar un servicio, copiá `_plantilla.md`, cambiale el nombre y completalo. El contador de servicios del inicio se actualiza solo.
+
+---
+
+## Insights y FRANCOZ LAB
+
+1. Copiá el `_plantilla.md` de la carpeta (`src/content/notas/` o `src/content/lab/`) y cambiale el nombre.
+2. Completá los datos de arriba (entre las dos líneas `---`) y escribí el texto abajo.
+3. Mientras esté `estado: en-preparacion`, **no aparece en ningún lado** del sitio.
+4. Cuando esté listo, cambiá a `estado: publicada` y poné la `fecha`.
+
+La sección Insights de la página de inicio aparece sola cuando hay al menos un artículo publicado.
+
+**Imágenes:** creá la carpeta `public/img/`, poné ahí la imagen y en el texto escribí `![Descripción](/img/nombre.png)`.
+
+---
+
+## Formulario de contacto
+
+Mientras `formulario` esté vacío en `src/data/site.ts`, el botón abre el programa de correo del visitante con los datos cargados.
+Para recibir las solicitudes directo en tu correo, sin que el visitante tenga que enviar nada aparte:
+
+1. Creá una cuenta gratis en https://formspree.io con el correo donde querés recibir las solicitudes.
+2. Creá un formulario nuevo y copiá su dirección (se ve así: `https://formspree.io/f/abcdwxyz`).
+3. Pegala en `src/data/site.ts`, en `formulario: ''`, entre las comillas.
+4. Subí el cambio. Desde ahí, cada solicitud llega a tu correo.
+
+---
+
+## Antes de publicar
+
+- En `src/data/site.ts`, reemplazá `contacto@[tu-dominio]` por el correo real.
+- Cuando tengas dominio propio, cambialo en `astro.config.mjs` (o cargá la variable `SITE_URL` en Vercel).
 
 ---
 
 ## Ver el sitio en tu computadora (opcional)
 
-Necesitás tener instalado Node.js 22 o más nuevo (https://nodejs.org).
+Necesitás Node.js 22 o más nuevo (https://nodejs.org).
 
 1. Abrí una terminal dentro de esta carpeta.
-2. Escribí `npm install` y esperá que termine (solo la primera vez).
-3. Escribí `npm run dev`.
-4. Abrí en el navegador la dirección que aparece (normalmente `http://localhost:4321`).
-5. Los cambios que guardes se ven al instante. Para cerrar, en la terminal apretá `Ctrl + C`.
-
----
-
-## Antes de publicar por primera vez
-
-- En `src/data/site.ts`, reemplazá `contacto@[tu-dominio]` por el correo real.
-- Revisá los estados de los proyectos en `src/content/proyectos/`.
-- Cuando tengas dominio propio, cambialo en `astro.config.mjs` (o cargá la variable `SITE_URL` en Vercel).
-
----
-
-## Cuando llegue la Etapa 03 (servicios)
-
-1. En `src/data/site.ts`, cambiá `etapa` a `{ numero: '03', nombre: 'Primeros servicios' }`. La hoja de ruta, el hero y el footer se actualizan solos.
-2. En `src/data/areas.ts`, completá `servicioFuturo` en cada área que tenga servicio. Aparece al final de la página de esa área.
-3. Para sumar «Servicios» al menú, agregalo en la lista `NAV` de `src/data/site.ts`.
+2. Escribí `npm install` (solo la primera vez).
+3. Escribí `npm run dev` y abrí la dirección que aparece (normalmente `http://localhost:4321`).

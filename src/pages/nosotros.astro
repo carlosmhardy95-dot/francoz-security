@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Proceso from '../components/Proceso.astro';
+import { SITE, CTA } from '../data/site';
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: SITE.nombre,
+  description: SITE.descripcion,
+  url: Astro.site?.toString(),
+  slogan: SITE.lema,
+};
+---
+<Base title="Nosotros" description="FRANCOZ SECURITY es una firma de ciberseguridad, gestión de riesgos e inteligencia para empresas, PyMEs y organizaciones." jsonld={jsonld}>
+  <main id="contenido">
+    <PageHead
+      kicker="Nosotros"
+      titulo="Seguridad pensada antes del incidente."
+      lead="FRANCOZ SECURITY es una firma de ciberseguridad, gestión de riesgos e inteligencia. Ayuda a empresas, PyMEs y organizaciones a entender su exposición, priorizar sus riesgos y fortalecer sus controles antes de que un problema técnico se convierta en un problema de negocio."
+      migas={[{ label: 'Inicio', href: '/' }, { label: 'Nosotros' }]}
+    />
+
+    <section class="sec">
+      <div class="wrap">
+        <div class="about" style="margin-top:0">
+          <div>
+            <h2>Misión</h2>
+            <p>Que las organizaciones tomen decisiones de seguridad con información clara, antes de tener que reaccionar.</p>
+          </div>
+          <div>
+            <h2>Visión</h2>
+            <p>Ser una referencia en ciberseguridad por rigor, claridad y confianza, especialmente para las organizaciones que hoy no tienen a quién consultar.</p>
+          </div>
+          <div>
+            <h2>Enfoque</h2>
+            <p>Primero entender el negocio y sus sistemas; después medir el riesgo; recién entonces recomendar controles. Sin herramientas mágicas ni recetas universales.</p>
+          </div>
+          <div>
+            <h2>Metodología</h2>
+            <p>Marcos reconocidos internacionalmente, como NIST CSF e ISO/IEC 27001 y 27005, como lenguaje común para evaluar, priorizar y comunicar.</p>
+          </div>
+          <div>
+            <h2>Investigación</h2>
+            <p>FRANCOZ LAB analiza técnicas, configuraciones y amenazas en entornos controlados. Lo que se aprende ahí mejora cada evaluación.</p>
+          </div>
+          <div>
+            <h2>Compromiso</h2>
+            <p>Confidencialidad, autorización por escrito y transparencia en cada informe: qué se encontró, qué significa y qué quedó fuera del alcance.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="metodo" aria-labelledby="ruta-t">
+      <div class="wrap">
+        <div class="split" style="align-items:start">
+          <div>
+            <p class="kicker">Método</p>
+            <h2 class="title" id="ruta-t">Cinco etapas, siempre las mismas.</h2>
+            <p class="lead" style="margin-top:24px">Cada trabajo empieza con un alcance definido por escrito y termina con un plan de acción que tu equipo puede ejecutar.</p>
+            <a class="textlink" href={CTA.href}>{CTA.texto}</a>
+          </div>
+          <Proceso />
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<style>
+  .about h2{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0 0 12px}
+</style>

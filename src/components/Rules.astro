@@ -1,19 +1,26 @@
 ---
-interface Props { enlace?: boolean }
-const { enlace = true } = Astro.props;
-const reglas = [
-  'Solo entornos propios o con autorización escrita.',
-  'Casos ficticios para OSINT y análisis de riesgo.',
-  'Ningún dato de terceros se publica.',
-  'Write-ups solo de retos retirados o de publicación permitida.',
-];
+interface Props {
+  titulo?: string;
+  reglas?: string[];
+  enlace?: { texto: string; href: string } | null;
+}
+const {
+  titulo = 'Compromisos de trabajo',
+  reglas = [
+    'Alcance y autorización por escrito antes de cualquier prueba.',
+    'Confidencialidad sobre toda la información de tu organización.',
+    'Pruebas controladas, en horarios acordados.',
+    'Informes claros: qué se encontró, qué riesgo implica y cómo se corrige.',
+  ],
+  enlace = { texto: 'Ver el marco de trabajo', href: '/marco-de-trabajo/' },
+} = Astro.props;
 ---
 <div class="rules">
-  <h4>Uso responsable</h4>
+  <h4>{titulo}</h4>
   <ul>
     {reglas.map((r) => (
       <li><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="m2 7.4 3 3L12 3.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>{r}</li>
     ))}
   </ul>
-  {enlace && <a class="textlink" href="/uso-responsable/" style="margin-top:16px;font-size:14.5px">Leer la política completa</a>}
+  {enlace && <a class="textlink" href={enlace.href} style="margin-top:16px;font-size:14.5px">{enlace.texto}</a>}
 </div>
