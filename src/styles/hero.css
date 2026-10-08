@@ -284,3 +284,16 @@ html.pre .slash{scale:1 0}
 html.pre .track i{scale:0 1}
 html.pre .dot{scale:0}
 
+
+/* ── Profundidad: la esfera responde al cursor y al scroll ──
+   --px / --py van de -1 a 1 (posición del cursor); --sp de 0 a 1 (cuánto se scrolleó el hero).
+   Cada capa se mueve distinto para que se lea como volumen. */
+.halo{translate:calc(var(--px,0)*-8px) calc(var(--py,0)*-6px)}
+.floor{translate:calc(var(--px,0)*-12px) 0;opacity:calc(1 - var(--sp,0)*.8)}
+.sphere{translate:calc(var(--px,0)*-18px) calc(var(--py,0)*-12px + var(--sp,0)*-7vh);scale:calc(1 - var(--sp,0)*.07)}
+.glint{translate:calc(var(--px,0)*-34px) calc(var(--py,0)*-22px)}
+.blade-ref{translate:calc(var(--px,0)*10px) 0}
+.blade{translate:calc(var(--px,0)*28px) calc(var(--py,0)*16px + var(--sp,0)*-12vh);rotate:calc(var(--px,0)*1.4deg + var(--sp,0)*8deg)}
+@media (prefers-reduced-motion:reduce){
+  .halo,.floor,.sphere,.glint,.blade-ref,.blade{translate:none;rotate:none;scale:none}
+}

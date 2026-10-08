@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/motion.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../data/site';
@@ -46,6 +47,16 @@ const favicon = `data:image/svg+xml,${encodeURIComponent(
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        if (!('IntersectionObserver' in window)) return;
+        if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        d.classList.add('motion');
+        // si el script de movimiento no llega a cargar, mostrar todo igual
+        setTimeout(function () { if (!window.__fzMotion) d.classList.remove('motion'); }, 2500);
+      })();
+    </script>
     {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
   </head>
   <body>
@@ -53,5 +64,8 @@ const favicon = `data:image/svg+xml,${encodeURIComponent(
     {!home && <div class="wrap"><Header /></div>}
     <slot />
     <Footer />
+    <script>
+      import '../scripts/motion.ts';
+    </script>
   </body>
 </html>

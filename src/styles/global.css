@@ -98,10 +98,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #2f5f9e;outline-offset:3p
 .area.wide .left{flex:1 1 280px;min-width:0}
 .area.wide h3{margin-top:14px}
 .area.wide .topics{margin-top:0;padding-top:0;flex:1 1 320px;justify-content:flex-end}
-@media (prefers-reduced-motion:no-preference){
-  .area,.proj{transition:transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s}
-  .area:hover,.proj:hover{transform:translateY(-2px);box-shadow:inset 1px 1px 0 rgba(255,255,255,.6),0 24px 48px rgba(28,52,92,.09)}
-}
+
 
 /* Evidencia */
 .ev{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,4vw,56px);margin-top:clamp(40px,5vw,64px);align-items:start}

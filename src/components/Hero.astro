@@ -144,3 +144,33 @@ const { labNumero, labEtiqueta } = Astro.props;
 })();
 
 </script>
+
+<script is:inline>
+/* profundidad de la esfera: cursor (solo mouse) + scroll */
+(()=>{
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const plate=document.querySelector('.plate'), hero=document.querySelector('.hero');
+  if(!plate||!hero) return;
+  let tx=0,ty=0,cx=0,cy=0,raf=0,lastSp=-1;
+  const frame=()=>{
+    raf=0;
+    cx+=(tx-cx)*.065; cy+=(ty-cy)*.065;
+    const r=hero.getBoundingClientRect();
+    const sp=Math.min(1,Math.max(0,-r.top/r.height));
+    if(sp<1||lastSp<1){
+      plate.style.setProperty('--px',cx.toFixed(4));
+      plate.style.setProperty('--py',cy.toFixed(4));
+      plate.style.setProperty('--sp',sp.toFixed(4));
+    }
+    lastSp=sp;
+    if(Math.abs(tx-cx)>.0008||Math.abs(ty-cy)>.0008) kick();
+  };
+  const kick=()=>{ if(!raf) raf=requestAnimationFrame(frame); };
+  if(matchMedia('(hover: hover) and (pointer: fine)').matches){
+    addEventListener('pointermove',e=>{ tx=(e.clientX/innerWidth-.5)*2; ty=(e.clientY/innerHeight-.5)*2; kick(); },{passive:true});
+    document.documentElement.addEventListener('pointerleave',()=>{ tx=0; ty=0; kick(); });
+  }
+  addEventListener('scroll',kick,{passive:true});
+  kick();
+})();
+</script>
